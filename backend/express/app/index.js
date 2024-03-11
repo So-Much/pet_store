@@ -2,18 +2,18 @@ const express = require('express')
 const app = express()
 const port = 3000
 const session = require('express-session');
-const GoogleStratery = require('passport-google-oauth20').Strategy;
+// const GoogleStratery = require('passport-google-oauth20').Strategy;
 
-app.use(session({
-  secret
-}))
+// app.use(session({
+//   secret
+// }))
 
-app.use(new GoogleStratery({
-  clientID: 'your-client-id',
-  clientSecret: 'your-client-secret',
-  callbackURL: 'http://localhost:3000/auth/callback'
-},
-(accessToken, refreshToken, profile, done)))
+// app.use(new GoogleStratery({
+//   clientID: 'your-client-id',
+//   clientSecret: 'your-client-secret',
+//   callbackURL: 'http://localhost:3000/auth/callback'
+// },
+// (accessToken, refreshToken, profile, done)))
 
 app.get('/', (req, res) => {
   res.send('Hello World!')

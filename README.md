@@ -37,6 +37,7 @@ This is a full-stack web application for a pet store. It consists of a backend b
 
      ```bash
      cd backend/express
+     npm install express-session
      npm install nodemon
      npm install mongoose
      npm install jsonwebtoken
@@ -52,6 +53,7 @@ This is a full-stack web application for a pet store. It consists of a backend b
 
      ```bash
      cd frontend
+     npm install animate.css --save
      npm install tailwindcss
      npm install react-router-dom
      npm install react-toastify
