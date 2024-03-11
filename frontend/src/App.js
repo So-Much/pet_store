@@ -5,6 +5,7 @@ import Register from "./pages/Register";
 import Home from "./pages/Home";
 import Shop from "./pages/Shop";
 import Scan from "./pages/Scan";
+import PageNotFound_404 from "./exceptions/PageNotFound_404";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/scan" element={<Scan />} />
         <Route path="/signin" element={<Login />} />
         <Route path="/signup" element={<Register />} />
+        <Route path="*" element={<PageNotFound_404/>} />
       </Routes>
     </div>
   );

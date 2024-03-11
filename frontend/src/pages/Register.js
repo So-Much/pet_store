@@ -77,7 +77,7 @@ export default function Register() {
               </div>
             </div>
             <Link
-              to={"/signup"}
+              to={"/signin"}
               onClick={handleHandoutLayout}
               className="w-full bg-slate-500 mt-4 text-white py-3 rounded-lg text-xl hover:bg-slate-600 hover:text-slate-200 text-center"
             >
