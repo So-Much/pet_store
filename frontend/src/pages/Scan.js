@@ -4,7 +4,7 @@ import Footer from '../components/Footer'
 
 export default function Scan() {
   return (
-    <div>
+    <div className='mclient_header'>
       <Header />
       {/* main content */}
       <div>

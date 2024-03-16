@@ -6,3 +6,11 @@
 * {
   font-family: 'Roboto', sans-serif;
 }
+
+.mclient_header {
+  margin-top: 76px;
+}
+
+.madmin_sidebar {
+  margin-left: 240px;
+}

@@ -37,11 +37,14 @@ This is a full-stack web application for a pet store. It consists of a backend b
 
      ```bash
      cd backend/express
-     npm install express-session
+     npm install --save
+     npm install multer
+     (npm install express-session
+     npm install --save @fullcalendar/core @fullcalendar/react @fullcalendar/daygrid @fullcalendar/interaction
      npm install nodemon
      npm install mongoose
      npm install jsonwebtoken
-     npm install passport
+     npm install passport)
      ```
 
      ```bash
@@ -53,10 +56,12 @@ This is a full-stack web application for a pet store. It consists of a backend b
 
      ```bash
      cd frontend
-     npm install animate.css --save
+     npm install --save
+     (npm install animate.css --save
      npm install tailwindcss
      npm install react-router-dom
      npm install react-toastify
+     npm install axios)
      ```
 
 ### Usage

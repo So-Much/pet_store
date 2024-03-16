@@ -1,7 +1,5 @@
-const jwt = require('jsonwebtoken');
-
 // Thực hiện xác thực và tạo token
-function generateToken(user) {
+export function generateToken(user) {
     // Định nghĩa payload cho JWT, ví dụ như thông tin user
     const payload = {
         // userId: user.id,
@@ -11,4 +9,3 @@ function generateToken(user) {
     const token = jwt.sign(payload, 'your_secret_key', { expiresIn: '1h' });
     return token;
 }
-
