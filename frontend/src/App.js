@@ -13,6 +13,7 @@ import Inbox from "./pages/admin/Inbox";
 import User from "./pages/admin/User";
 import Product from "./pages/admin/Product";
 import Schedule from "./pages/admin/Schedule";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   const [isAuthenticated, setAuthenticated] = useState(false);
@@ -34,6 +35,18 @@ function App() {
 
         <Route path="*" element={<PageNotFound_404 />} />
       </Routes>
+      {/* <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        /> */}
     </div>
   );
 }

@@ -1,7 +1,9 @@
-.input_focus:focus {
+/* .input_focus:focus {
   border: 1px solid #B5C0D0;
   outline: none;
-}
+} */
+
+
 
 * {
   font-family: 'Roboto', sans-serif;
