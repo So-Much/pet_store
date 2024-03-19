@@ -1,18 +1,30 @@
-// Middleware để xác thực token
-function authenticateToken(req, res, next) {
-    // Lấy header 'Authorization' từ request
-    const authHeader = req.headers['authorization'];
-    // Token được truyền trong header 'Authorization' theo format 'Bearer token'
-    const token = authHeader && authHeader.split(' ')[1];
-    if (token == null) {
-        return res.sendStatus(401); // Không có token, trả về lỗi 401 (Unauthorized)
-    }
+const jwt = require('jsonwebtoken');
 
-    // Xác thực token sử dụng secret key
-    jwt.verify(token, 'your_secret_key', (err, user) => {
-        if (err) {
-            return res.sendStatus(403); // Token không hợp lệ, trả về lỗi 403 (Forbidden)
+module.exports = auth = {
+    authentication : (req, res, next) => {
+        // Kiểm tra token trong session
+        const token = req.session.token;
+        if (token) {
+            jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+                if (err) {
+                    return res.status(403);
+                }
+                req.user = decoded;
+                next();
+            });
+        } else {
+            res.status(401);
         }
-        req.user = user; // Lưu thông tin user từ token vào request để sử dụng trong các middleware sau
-    });
+    },
+    authorization : (role) => {
+        return (req, res, next) => {
+            // Kiểm tra quyền của người dùng từ thông tin được thêm vào yêu cầu
+            // Ví dụ: kiểm tra xem người dùng có quyền 'admin' không
+            if (req.user && req.user.role === role) {
+                next();
+            } else {
+                res.status(403); // Từ chối truy cập
+            }
+        };
+    }
 }

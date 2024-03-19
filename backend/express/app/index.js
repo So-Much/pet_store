@@ -4,37 +4,43 @@ const port = 8000;
 const bodyParser = require("body-parser");
 const { generateToken } = require("./middlewares/JWTMiddleware");
 const mongoose = require('mongoose');
-const userRoute = require('./routes/user')
 const multer = require('multer');
 const cors = require('cors');
+const fileupload = require('express-fileupload');
+
+// Routes
+const userRoute = require('./routes/userRoute')
+const productRoute = require('./routes/productRoute')
+const authRoute = require('./routes/authRoute');
+const session = require("express-session");
 
 // Connect to MongoDB
 mongoose.connect('mongodb://localhost:27017/pet_store')
-  .then(() => console.log('Connected to MongoDB!'))
-  .catch(err => console.error('Could not connect to MongoDB...', err));
+.then(() => console.log('Connected to MongoDB!'))
+.catch(err => console.error('Could not connect to MongoDB...', err));
 
 // Body Parser for POST requests
+const upload = multer()
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
-const upload = multer()
-app.use(upload.any());
+app.use(
+  fileupload({
+    createParentPath: true,
+  }),
+);
 app.use(cors());
+// app.use(upload.any());
 
-
-// app.post('/upload', upload.single('avatar'), async (req, res) => {
-//   try {
-//     const user = new User({ avatar: req.file.path });
-//     await user.save();
-//     res.send('Avatar uploaded successfully');
-//   } catch (error) {
-//     console.error('Error uploading avatar:', error);
-//     res.status(500).send('Internal Server Error');
-//   }
-// });
+app.use(session({
+  secret: 'PET_STORE_SECRET_KEY',
+  resave: false,
+  saveUninitialized: true,
+}));
 
 // userRoute
+app.use('/auth', authRoute)
 app.use('/api/user', userRoute)
+app.use('/api/product', productRoute)
 
 
 
@@ -52,25 +58,6 @@ app.use('/api/user', userRoute)
 // },
 // (accessToken, refreshToken, profile, done)))
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
-
-// // Sử dụng authenticateToken middleware trong các route cần xác thực
-// app.get('/profile', authenticateToken, (req, res) => {
-//     res.json(req.user); // Trả về thông tin user từ token
-// });
-
-// Route để xác thực và tạo token
-app.post("/login", (req, res) => {
-  // Xác thực user, ví dụ như kiểm tra username và password
-  const { username, password } = req.body;
-  // check username and password
-
-  // Tạo token cho user đã xác thực
-  const token = generateToken(user);
-  res.json({ token: token }); // Trả về token cho client
-});
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);

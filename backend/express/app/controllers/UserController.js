@@ -34,11 +34,9 @@ const userController = {
       res.status(400).json({ message: error.message });
     }
   },
-  // ROUTE : [POST]: api/user/update/:id
+  // ROUTE : [PUT]: api/user/update/:id
   updateUser: async (req, res) => {
     try {
-      // const avatarPath = req.file.path
-      console.log(req.file);
       const uUpdated = await User.findByIdAndUpdate(
         { _id: req.params.id },
         req.body
@@ -48,7 +46,20 @@ const userController = {
       res.status(400).json({ message: error.message });
     }
   },
-  // ROUTE : [POST]: api/user/delete/:id
+  // // ROUTE : [POST]: api/user/update/:id
+  // uploadAvatar : async (req, res) => {
+  //   try {
+  //     console.log(req.file);
+  //     const imagePath = req.file.path;
+  //     const image = User.findByIdAndUpdate(req.params.id,{'avatar': imagePath})
+  //     await image.save();
+  //     res.status(200).send("Image uploaded successfully!");
+  //   } catch (error) {
+  //     console.error("Error uploading image:", error);
+  //     res.status(500).send("Error uploading image.");
+  //   }
+  // },
+  // ROUTE : [DELETE]: api/user/delete/:id
   deleteUser: async (req, res) => {
     try {
       const uDeleted = await User.findByIdAndDelete(req.params.id);
@@ -57,6 +68,7 @@ const userController = {
       res.status(400).json({ message: error.message });
     }
   },
+  
 };
 
 module.exports = userController;

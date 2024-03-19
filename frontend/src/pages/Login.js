@@ -3,10 +3,20 @@ import LoginImage from "../assets/Login_left.jpg";
 import mailIcon from "../assets/mail-inbox-app.png";
 import lockIcon from "../assets/lock.png";
 import { Link } from "react-router-dom";
+import axios from "../utils/axios_config";
 
 export default function Login() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
   const handleLogin = (e) => {
-    
+    axios
+    .post('/auth/login', {
+      email,
+      password,
+    })
+    .then(res => console.log(res))
+    .catch(err => console.error(err));
   }
   return (
     <div className="w-dvw min-h-dvh h-full bg-slate-200 flex items-center justify-center">
@@ -37,6 +47,8 @@ export default function Login() {
                 type="email"
                 placeholder="Email"
                 name="email"
+                onChange={(e) => setEmail(e.target.value)}
+                value={email}
                 required
                 className="w-full py-3 rounded-lg input_focus pl-10 text-sm peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0"
               />
@@ -54,6 +66,9 @@ export default function Login() {
               <input
                 type="password"
                 placeholder="Password"
+                name="password"
+                onChange={(e) => setPassword(e.target.value)}
+                value={password}
                 required
                 className="w-full py-3 rounded-lg input_focus pl-10 text-sm peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0"
               />
@@ -78,13 +93,12 @@ export default function Login() {
                 </Link>
               </div>
             </div>
-            <Link
-              to={"/"}
+            <div
               onClick={handleLogin}
               className="w-full bg-slate-500 text-white py-2.5 rounded-lg mt-4 text-xl hover:bg-slate-600 hover:text-slate-200 text-center"
             >
               Sign In
-            </Link>
+            </div>
 
             <Link to={"/"}>
               <button className="w-full flex items-center justify-center gap-x-3 py-2.5 border rounded-lg text-sm font-medium hover:bg-gray-50 duration-150 active:bg-gray-100">

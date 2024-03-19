@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Sidebar from "../../components/admin/Sidebar";
 import axios from "./../../utils/axios_config";
 import Selectec_ from "../../components/Selectec_";
@@ -10,9 +10,19 @@ export default function User() {
   const [currentSelectedUser, setCurrentSelectedUser] = useState({});
   const [modalData, setModalData] = useState({});
   const [reRender, setReRender] = useState(false);
-  const [currentAvatar, setCurrentAvatar] = useState(
-    currentSelectedUser.avatar
-  );
+  const [avatarReview, setAvatarReview] = useState();
+  const avatarInputRef = useRef();
+
+  const handleAvatarReview = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setAvatarReview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const handleModalInputChange = (e) => {
     console.log(
@@ -31,14 +41,14 @@ export default function User() {
   };
 
   const handleChange = () => {
-    console.log("modalData: ", modalData);
+    // console.log("modalData: ", modalData);
     // check xem người dùng có thay đổi gì không?
     if (Object.keys(modalData).length === 0) {
       return;
     }
     // gửi request lên server
     axios
-      .put("/api/user/update/" + currentSelectedUser._id, {
+      .put("/api/user/" + currentSelectedUser._id, {
         ...modalData,
       })
       .then(() => {
@@ -50,36 +60,34 @@ export default function User() {
       });
   };
 
-  const handleUploadFile = () => {
-    const formData = new FormData();
-    formData.append("avatar", currentAvatar);
-    formData.append("abc" , 'abc');
-    console.log("formData: ", formData);
-    console.log(currentAvatar);
-    axios
-      .put(`/api/user/update/${currentSelectedUser._id}`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      .then((res) => console.log("File uploaded successfully"))
-      .catch((err) => console.log("Error uploading file", err));
-  };
+  // const handleUploadAvatar = () => {
+  //   if (avatarReview) {
+  //     const formData = new FormData();
+  //     formData.append("avatar", avatarInputRef.current.files[0]);
+  //     console.log("avatar", avatarInputRef.current.files[0]);
+  //     console.log("formData: ", formData);
 
-  const handleUploadImage = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setCurrentAvatar(reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+  //     axios
+  //       .postForm("/api/user/upload" + currentSelectedUser._id, avatarInputRef.current.files[0])
+  //       .then((res) => console.log(res))
+  //       .then((err) => console.log(err));
+  //     // .post("/api/user/update/" + currentSelectedUser._id, formData, {
+  //     //   headers: {
+  //     //     "Content-Type": "multipart/form-data",
+  //     //   }
+  //     // })
+  //     // .then(() => {
+  //     //   console.log("Update avatar successfully");
+  //     // })
+  //     // .catch((err) => {
+  //     //   console.log("Error updating avatar", err.response.data.message);
+  //     // });
+  //   }
+  // };
 
   const handleDelete = (e) => {
     axios
-      .delete("/api/user/delete/" + currentSelectedUser._id)
+      .delete("/api/user/" + currentSelectedUser._id)
       .then((res) => {
         console.log(res.data);
         toast.success("Delete user successfully");
@@ -95,7 +103,6 @@ export default function User() {
       .get("/api/user")
       .then((res) => {
         setListUsers(res.data);
-        console.log(res.data[0]);
       })
       .catch((err) => {
         console.log(err);
@@ -221,11 +228,11 @@ export default function User() {
                                   <div className="m-2 p-2 flex items-center justify-center flex-col relative">
                                     <img
                                       src={
-                                        currentAvatar
-                                          ? currentAvatar
+                                        avatarReview
+                                          ? avatarReview
                                           : currentSelectedUser.avatar
                                       }
-                                      alt="avatar"
+                                      alt=""
                                       className="size-28 rounded-full"
                                     />
                                     <label
@@ -257,11 +264,11 @@ export default function User() {
                                         accept="image/*"
                                         id="avatar"
                                         type="file"
+                                        ref={avatarInputRef}
                                         name="avatar"
                                         className="hidden"
                                         onChange={(e) => {
-                                          console.log(e.target.files[0]);
-                                          handleUploadImage(e);
+                                          handleAvatarReview(e);
                                         }}
                                       />
                                     </label>
@@ -355,7 +362,7 @@ export default function User() {
                                       setModalData({});
                                       setReRender(!reRender);
                                       setShowModal(false);
-                                      setCurrentAvatar(null);
+                                      setAvatarReview(null);
                                     }}
                                   >
                                     Close
@@ -365,11 +372,11 @@ export default function User() {
                                     type="button"
                                     onClick={() => {
                                       handleChange();
-                                      handleUploadFile();
+                                      // handleUploadAvatar();
                                       setModalData({});
                                       setReRender(!reRender);
                                       setShowModal(false);
-                                      setCurrentAvatar(null);
+                                      setAvatarReview(null);
                                     }}
                                   >
                                     Save Changes
