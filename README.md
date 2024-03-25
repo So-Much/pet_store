@@ -30,7 +30,7 @@ This is a full-stack web application for a pet store. It consists of a backend b
 1. Clone the repository:
 
      ```bash
-     git clone https://github.com/your-username/pet-store.git
+     git clone https://github.com/So-Much/pet_store.git
      ```
 
 2. Install the backend dependencies:
@@ -38,17 +38,6 @@ This is a full-stack web application for a pet store. It consists of a backend b
      ```bash
      cd backend/express
      npm install --save
-     (npm install express-session
-     npm install cors --save
-     npm install multer
-     npm install express-fileupload
-     npm install express-jwt
-     npm install cookie-parser
-     npm install nodemon
-     npm install bcrypt
-     npm install mongoose
-     npm install jsonwebtoken
-     npm install passport)
      ```
 
      ```bash
@@ -61,11 +50,6 @@ This is a full-stack web application for a pet store. It consists of a backend b
      ```bash
      cd frontend
      npm install --save
-     (npm install animate.css --save
-     npm install tailwindcss
-     npm install react-router-dom
-     npm install react-toastify
-     npm install axios)
      ```
 
 ### Usage
