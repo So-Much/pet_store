@@ -1,44 +1,25 @@
 import React, { useState } from "react";
+import LoginImage from "../../assets/Login_left.jpg";
+import mailIcon from "../../assets/mail-inbox-app.png";
+import lockIcon from "../../assets/lock.png";
 import { Link } from "react-router-dom";
-import userIcon from "../assets/user.png";
-import lockIcon from "../assets/lock.png";
-import RegisterImage from "../assets/Register_left.jpg";
-import mailIcon from "./../assets/mail-inbox-app.png";
-import axios from './../utils/axios_config';
+import axios from "./../../utils/axios_config";
 
-export default function Register() {
-  const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+export default function Login() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-  const handleRegister = (e) => {
-    e.preventDefault();
-    if (password !== confirmPassword) {
-      alert("Passwords do not match");
-    } else {
-      try {
-        console.log({email, username, password});
-        axios.post("/api/user/create", {
-          email,
-          username,
-          password,
-        })
-        .then(function (response) {
-          console.log(response);
-        })
-        .catch(function (error) {
-          console.log(error);
-        })
-
-      } catch (error) {
-        console.error("Error creating user", error);
-      }
-    }
-  };
-
+  const handleLogin = (e) => {
+    axios
+    .post('/auth/login', {
+      email,
+      password,
+    })
+    .then(res => console.log(res))
+    .catch(err => console.error(err));
+  }
   return (
-    <div className="w-full min-h-dvh h-full bg-slate-200 flex items-center justify-center">
+    <div className="w-dvw min-h-dvh h-full bg-slate-200 flex items-center justify-center">
       {/* login layout */}
       <div
         className={`flex p-10 gap-5 rounded-xl w-1/2 bg-white animate__animated animate__lightSpeedInLeft`}
@@ -46,14 +27,14 @@ export default function Register() {
         {/* main content */}
         <div className="w-1/2 h-[500px] mix-blend-multiply">
           <img
-            src={RegisterImage}
+            src={LoginImage}
             alt="Login"
             className="w-full h-full object-cover rounded-lg"
           />
         </div>
         {/* Login form */}
         <div className="w-1/2">
-          <div className="font-bold text-5xl my-10 mx-2">Sign Up</div>
+          <div className="font-bold text-5xl my-10 mx-2">Sign In</div>
           <div className="flex gap-3 flex-col">
             {/* username input */}
             <div className="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600">
@@ -66,32 +47,13 @@ export default function Register() {
                 type="email"
                 placeholder="Email"
                 name="email"
-                required
-                value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full py-3 rounded-lg input_focus pl-10 text-sm peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0"
-              />
-              <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">
-                Email
-              </span>
-            </div>
-            <div className="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600">
-              <img
-                src={userIcon}
-                alt="user"
-                className="size-5 absolute top-[12px] opacity-70 left-3"
-              />
-              <input
-                type="text"
-                placeholder="Username"
-                name="username"
+                value={email}
                 required
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
                 className="w-full py-3 rounded-lg input_focus pl-10 text-sm peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0"
               />
-              <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">
-                Username
+              <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">
+                Email
               </span>
             </div>
             {/* password input */}
@@ -105,51 +67,39 @@ export default function Register() {
                 type="password"
                 placeholder="Password"
                 name="password"
-                required
-                value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                value={password}
+                required
                 className="w-full py-3 rounded-lg input_focus pl-10 text-sm peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0"
               />
-              <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">
+              <span class="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">
                 Password
               </span>
             </div>
-            <div className="relative block rounded-md border border-gray-200 shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600">
-              <img
-                src={lockIcon}
-                alt="user"
-                className="size-5 absolute top-[12px] opacity-70 left-3"
-              />
-              <input
-                type="password"
-                placeholder="Confirm Password"
-                value={confirmPassword}
-                required
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                className="w-full py-3 rounded-lg input_focus pl-10 text-sm peer border-none bg-transparent placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0"
-              />
-              <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">
-                Confirm Password
-              </span>
+            <div className="pl-2">
+              <input type="checkbox" id="remember" />
+              <label htmlFor="remember" className="text-sm ml-3 text-slate-700">
+                Remember me
+              </label>
             </div>
             <div>
               <div className="text-sm text-right">
-                Have an account?{" "}
+                Don't have an account?
                 <Link
-                  to={"/signin"}
+                  to={"/signup"}
                   className="underline ml-1 text-blue-500 hover:text-blue-600"
                 >
-                  Sign In
+                  Sign Up
                 </Link>
               </div>
             </div>
-            <a
-              href="#"
-              onClick={handleRegister}
-              className="w-full bg-slate-500 mt-4 text-white py-2.5 rounded-lg text-xl hover:bg-slate-600 hover:text-slate-200 text-center"
+            <div
+              onClick={handleLogin}
+              className="w-full bg-slate-500 text-white py-2.5 rounded-lg mt-4 text-xl hover:bg-slate-600 hover:text-slate-200 text-center"
             >
-              Sign Up
-            </a>
+              Sign In
+            </div>
+
             <Link to={"/"}>
               <button className="w-full flex items-center justify-center gap-x-3 py-2.5 border rounded-lg text-sm font-medium hover:bg-gray-50 duration-150 active:bg-gray-100">
                 <svg
@@ -158,7 +108,7 @@ export default function Register() {
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                 >
-                  <g clipPath="url(#clip0_17_40)">
+                  <g clip-path="url(#clip0_17_40)">
                     <path
                       d="M47.532 24.5528C47.532 22.9214 47.3997 21.2811 47.1175 19.6761H24.48V28.9181H37.4434C36.9055 31.8988 35.177 34.5356 32.6461 36.2111V42.2078H40.3801C44.9217 38.0278 47.532 31.8547 47.532 24.5528Z"
                       fill="#4285F4"

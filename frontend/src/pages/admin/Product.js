@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Sidebar from "../../components/admin/Sidebar";
 import axios from "../../utils/axios_config";
 import { Link } from "react-router-dom";
+const formatVND = require('../../utils/VND_formatter')
 
 export default function Product() {
   const [listProducts, setListProducts] = useState([]);
@@ -108,7 +109,7 @@ export default function Product() {
                         {product.category}
                       </td>
                       <td class="whitespace-nowrap px-4 py-2 text-center text-gray-700">
-                        {product.price}
+                        {formatVND(product.price)}
                       </td>
                       <td class="whitespace-nowrap px-4 py-2 text-center text-gray-700">
                         {product.sale}

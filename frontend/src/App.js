@@ -1,19 +1,21 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import Home from "./pages/Home";
-import Shop from "./pages/Shop";
-import Scan from "./pages/Scan";
 import PageNotFound_404 from "./exceptions/PageNotFound_404";
-import Services from "./pages/Services";
 import { useState } from "react";
+import { ToastContainer } from "react-toastify";
+
+import Home from "./pages/client/Home";
+import Shop from "./pages/client/Shop";
+import Scan from "./pages/client/Scan";
+import Services from "./pages/client/Services";
+import Login from "./pages/auth/Login";
+import Register from "./pages/auth/Register";
 import Dashboard from "./pages/admin/Dashboard";
 import Inbox from "./pages/admin/Inbox";
 import User from "./pages/admin/User";
 import Product from "./pages/admin/Product";
-import Schedule from "./pages/admin/Schedule";
-import { ToastContainer } from "react-toastify";
+// import Schedule from "./pages/admin/Schedule";
+
 
 function App() {
   const [isAuthenticated, setAuthenticated] = useState(false);

@@ -1,8 +1,8 @@
 import React from "react";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
-import Carousel from "../components/Carousel";
-import Feature from "../components/Feature";
+import Header from "../../components/Header";
+import Footer from "../../components/Footer";
+import Carousel from "../../components/Carousel";
+import Feature from "../../components/Feature";
 
 export default function Home() {
   return (

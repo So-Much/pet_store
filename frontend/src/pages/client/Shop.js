@@ -1,12 +1,12 @@
 import React from "react";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
-import ProductItem from "../components/ProductItem";
-import Feature from "../components/Feature";
+import Header from "../../components/Header";
+import Footer from "../../components/Footer";
+import ProductItem from "../../components/ProductItem";
+import Feature from "../../components/Feature";
 import { Link } from "react-router-dom";
-import BreadcrumbImageIcon from "../components/BreadcrumbImageIcon";
-import DividedLine from "../components/DividedLine";
-import DropdownFilter from "../components/DropdownFilter";
+import BreadcrumbImageIcon from "../../components/BreadcrumbImageIcon";
+import DividedLine from "../../components/DividedLine";
+import DropdownFilter from "../../components/DropdownFilter";
 
 export default function Shop() {
   const categories = ["Foods", "Pet Toys", "Vacxin"];
