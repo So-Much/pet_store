@@ -1,14 +1,11 @@
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 
-authController = {
+module.exports  = {
   // ROUTE : [POST]: /auth/login
-
   login: async (req, res) => {
     try {
       const { email, password } = req.body;
-      // const loginUser = await User.
-
       const token = jwt.sign({ email }, process.env.JWT_SECRET, {
         expiresIn: "1h",
       });
@@ -19,6 +16,7 @@ authController = {
       res.status(500).json({ message: e.message });
     }
   },
+
   // ROUTE : [GET]: /auth/logout
   logout: async (req, res) => {
     try {
@@ -30,4 +28,3 @@ authController = {
   },
 };
 
-module.exports = authController;

@@ -1,6 +1,6 @@
 const Product = require("../models/Product");
 
-const productController = {
+module.exports = {
   // ROUTE : [GET]: api/product
   getAllProducts: async (req, res) => {
     try {
@@ -65,4 +65,3 @@ const productController = {
   },
 };
 
-module.exports = productController;

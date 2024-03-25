@@ -1,7 +1,7 @@
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 
-const userController = {
+module.exports = {
   // ROUTE : [GET]: api/user
   getAllUsers: async (req, res) => {
     try {
@@ -59,6 +59,7 @@ const userController = {
   //     res.status(500).send("Error uploading image.");
   //   }
   // },
+  
   // ROUTE : [DELETE]: api/user/delete/:id
   deleteUser: async (req, res) => {
     try {
@@ -70,5 +71,3 @@ const userController = {
   },
   
 };
-
-module.exports = userController;

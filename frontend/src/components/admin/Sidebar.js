@@ -103,7 +103,7 @@ export default function Sidebar() {
                 <span className="flex-1 ms-3 whitespace-nowrap">Products</span>
               </Link>
             </li>
-            <li>
+            {/* <li>
               <Link
                 to={"/admin/schedule"}
                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
@@ -155,7 +155,7 @@ m198 -101 c52 -22 98 -68 123 -122 44 -94 27 -183 -51 -260 -77 -78 -166 -95
 
                 <span className="flex-1 ms-3 whitespace-nowrap">Schedule</span>
               </Link>
-            </li>
+            </li> */}
             <li>
               <Link
                 to={"/"}

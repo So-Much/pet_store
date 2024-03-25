@@ -31,7 +31,7 @@ function App() {
         <Route path="/admin/inbox" element={<Inbox />} />
         <Route path="/admin/user" element={<User />} />
         <Route path="/admin/product" element={<Product />} />
-        <Route path="/admin/schedule" element={<Schedule />} />
+        {/* <Route path="/admin/schedule" element={<Schedule />} /> */}
 
         <Route path="*" element={<PageNotFound_404 />} />
       </Routes>

@@ -39,7 +39,6 @@ This is a full-stack web application for a pet store. It consists of a backend b
      cd backend/express
      npm install --save
      (npm install express-session
-     npm install --save @fullcalendar/core @fullcalendar/react @fullcalendar/daygrid @fullcalendar/interaction
      npm install cors --save
      npm install multer
      npm install express-fileupload

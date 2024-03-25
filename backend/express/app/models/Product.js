@@ -12,7 +12,8 @@ const Product = new Schema({
     sold : { type : Number, default: 0},
     rating : { type : Number, default: 0},
     brand : { type : String, default: ''},
-    unit : {type : String, enum : ['piece', 'kg', 'bag', 'ml' , 'l'] , default: ''},
+    unit : {type : String, enum : ['piece', 'kg', 'bag', 'ml' , 'l', 'can'] , default: ''},
+    status : { type : String, enum : ['active', 'inactive'], default: 'active'},
 
 })
 
