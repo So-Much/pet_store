@@ -10,6 +10,16 @@ module.exports = {
       res.status(500).json({ message: error.message });
     }
   },
+  // ROUTE : api/product/:id
+  getProduct : async (req, res) => {
+    try {
+      const product = await Product.findById(req.params.id);
+      res.json(product);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  },
+  // ROUTE : [POST]: api/product/create
   createProduct: async (req, res) => {
     try {
       const {
@@ -63,5 +73,14 @@ module.exports = {
       res.status(500).json({ message: err.message });
     }
   },
+  // ROUTE : [GET]: api/product/category
+  getAllCategories: async (req, res) => {
+    try {
+      const categories = await Product.distinct('category')
+      res.json(categories)
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  }
 };
 

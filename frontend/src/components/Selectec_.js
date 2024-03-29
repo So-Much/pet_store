@@ -1,11 +1,11 @@
 import React from "react";
 
 export default function Selectec_({
-  name,
-  values,
-  currentValue,
-  handleValueChange,
-  customStyles
+  name = "",
+  values = undefined,
+  currentValue = "",
+  handleValueChange = () =>{},
+  customStyles = []
 }) {
   return (
     <div className={`relative w-72 max-w-full mx-auto ${customStyles.join(' ')}`}>

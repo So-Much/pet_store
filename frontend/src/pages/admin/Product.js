@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import Sidebar from "../../components/admin/Sidebar";
 import axios from "../../utils/axios_config";
 import { Link } from "react-router-dom";
-const formatVND = require('../../utils/VND_formatter')
+import Pagination from "../../components/Pagination";
+const formatVND = require("../../utils/VND_formatter");
 
 export default function Product() {
   const [listProducts, setListProducts] = useState([]);
@@ -102,8 +103,8 @@ export default function Product() {
                           id="Row1"
                         />
                       </td>
-                      <td class="max-w-[140px] text-ellipsis overflow-hidden whitespace-nowrap px-4 py-2 text-center font-medium text-gray-900">
-                        {product.name}
+                      <td class="max-w-[140px] text-ellipsis overflow-hidden whitespace-nowrap px-4 py-2 text-center font-medium text-gray-900 hover:underline">
+                        <Link to={product._id}>{product.name}</Link>
                       </td>
                       <td class="whitespace-nowrap px-4 py-2 text-center text-gray-700">
                         {product.category}
@@ -125,54 +126,7 @@ export default function Product() {
                 })}
               </tbody>
             </table>
-            <nav>
-              <ul className="list-style-none flex">
-                <li>
-                  <Link
-                  to={''} className="pointer-events-none relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-500 transition-all duration-300 dark:text-neutral-400">
-                    Previous
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                  to={''}
-                    className="relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100  dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white"
-                    href="#!"
-                  >
-                    1
-                  </Link>
-                </li>
-                <li aria-current="page">
-                  <a
-                    className="relative block rounded bg-primary-100 px-3 py-1.5 text-sm font-medium text-primary-700 transition-all duration-300"
-                    href="#!"
-                  >
-                    2
-                    <span className="absolute -m-px h-px w-px overflow-hidden whitespace-nowrap border-0 p-0 [clip:rect(0,0,0,0)]">
-                      (current)
-                    </span>
-                  </a>
-                </li>
-                <li>
-                  <Link
-                  to={''}
-                    className="relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white"
-                    href="#!"
-                  >
-                    3
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                  to={''}
-                    className="relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100"
-                    href="#!"
-                  >
-                    Next
-                  </Link>
-                </li>
-              </ul>
-            </nav>
+            <Pagination />
           </div>
         </div>
       </div>

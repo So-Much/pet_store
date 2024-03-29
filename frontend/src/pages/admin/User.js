@@ -3,6 +3,8 @@ import Sidebar from "../../components/admin/Sidebar";
 import axios from "./../../utils/axios_config";
 import Selectec_ from "../../components/Selectec_";
 import { toast } from "react-toastify";
+const formatVND = require("../../utils/VND_formatter");
+
 
 export default function User() {
   const [showModal, setShowModal] = useState(false);
@@ -194,7 +196,7 @@ export default function User() {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">{item.role}</td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    {item.spending + " .vnd"}
+                    {formatVND(item.spending)}
                   </td>
                   <td className="text-right px-6 whitespace-nowrap">
                     <>
