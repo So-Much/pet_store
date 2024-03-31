@@ -1,6 +1,29 @@
 const Product = require("../models/Product");
 
 module.exports = {
+  // ROUTE : [GET]: api/product/page
+  pagination: async (req, res) => {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skipIndex = (page - 1) * limit;
+
+    try {
+      const products = await Product.find()
+      .skip(skipIndex)
+      .limit(limit);
+
+      const totalCount = await Product.countDocuments();
+      res.json({
+        products,
+        currentPage: page,
+        totalPages: Math.ceil(totalCount / limit),
+        totalProducts: totalCount
+      })
+    } catch (error) {
+      
+    }
+
+  },
   // ROUTE : [GET]: api/product
   getAllProducts: async (req, res) => {
     try {
