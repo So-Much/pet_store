@@ -10,7 +10,7 @@ module.exports = {
       res.status(500).json({ message: error.message });
     }
   },
-  // ROUTE : api/product/:id
+  // ROUTE : [GET] api/product/:id
   getProduct : async (req, res) => {
     try {
       const product = await Product.findById(req.params.id);
@@ -52,7 +52,7 @@ module.exports = {
       res.status(500).json({ message: error.message });
     }
   },
-  // ROUTE : [PUT]: api/product/update/:id
+  // ROUTE : [PUT]: api/product/:id
   updateProduct: async (req, res) => {
     try {
       const newProduct = await Product.findByIdAndUpdate(

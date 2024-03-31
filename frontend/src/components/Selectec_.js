@@ -31,7 +31,7 @@ export default function Selectec_({
         {values.map((val) => {
           return (
             <option
-              defaultValue={currentValue === val}
+              selected={currentValue === val}
               value={val}
               key={val}
             >

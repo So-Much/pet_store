@@ -10,6 +10,7 @@ export default function Product() {
   const [productsSelected, setProductsSelected] = useState([]);
   const [checkedAll, setCheckedAll] = useState(false);
   const [changed, setChanged] = useState(false);
+  const [blockIndexPagination, setBlockIndexPagination] = useState(1);
 
   const handleSelectAll = (e) => {
     setCheckedAll(e.target.checked);
@@ -26,6 +27,10 @@ export default function Product() {
       })
       .catch((err) => console.log(err));
   }, [changed]);
+
+  useEffect(() => {
+
+  }, [blockIndexPagination])
 
   return (
     <div className="madmin_sidebar">
@@ -80,7 +85,7 @@ export default function Product() {
                     Sale
                   </th>
                   <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                    Sold
+                    Quantity
                   </th>
                   <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
                     Status
@@ -116,7 +121,7 @@ export default function Product() {
                         {product.sale}
                       </td>
                       <td class="whitespace-nowrap px-4 py-2 text-center text-gray-700">
-                        {product.sold}
+                        {product.quantity}
                       </td>
                       <td class="whitespace-nowrap px-4 py-2 text-center text-gray-700">
                         {product.status}
@@ -126,7 +131,7 @@ export default function Product() {
                 })}
               </tbody>
             </table>
-            <Pagination />
+            <Pagination totalPages={10} initialPage={1} handlePagination={() => {}}  />
           </div>
         </div>
       </div>
