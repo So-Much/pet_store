@@ -23,6 +23,10 @@ export default function Register() {
           email,
           username,
           password,
+        }, {
+          headers: {
+            "Content-Type": "application/json",
+          }
         })
         .then(function (response) {
           console.log(response);

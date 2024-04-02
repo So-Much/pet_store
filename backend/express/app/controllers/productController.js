@@ -1,4 +1,8 @@
+
+
 const Product = require("../models/Product");
+
+
 
 module.exports = {
   // ROUTE : [GET]: api/product/page
@@ -101,6 +105,15 @@ module.exports = {
     try {
       const categories = await Product.distinct('category')
       res.json(categories)
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  },
+  // ROUTE : [POST]: api/product/images
+  uploadImages : async (req, res) => {
+    try {
+      const images = req.files.map((file) => file.path);
+      res.json(images);
     } catch (error) {
       res.status(500).json({ message: error.message });
     }

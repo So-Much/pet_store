@@ -4,16 +4,22 @@ const jwt = require("jsonwebtoken");
 module.exports  = {
   // ROUTE : [POST]: /auth/login
   login: async (req, res) => {
-    try {
-      const { email, password } = req.body;
-      const token = jwt.sign({ email }, process.env.JWT_SECRET, {
-        expiresIn: "1h",
-      });
-      req.session.token = token;
+    // try {
+    //   const { email, password } = req.body;
+    //   const token = jwt.sign({ email }, process.env.JWT_SECRET, {
+    //     expiresIn: "1h",
+    //   });
+    //   req.session.token = token;
 
-      res.json({ token });
-    } catch (e) {
-      res.status(500).json({ message: e.message });
+    //   res.json({ token });
+    // } catch (e) {
+    //   res.status(500).json({ message: e.message });
+    // }
+    try {
+      console.log(req.user);
+      return res.status(200).json(req.user);
+    } catch (error) {
+      return res.status(500).json({ message: error.message });
     }
   },
 

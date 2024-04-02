@@ -13,14 +13,19 @@ module.exports = {
   },
   // ROUTE : [POST]: api/user/create
   createUser: async (req, res) => {
-    // Hash mật khẩu trước khi lưu vào cơ sở dữ liệu
-    // Số vòng lặp để tạo salt (10 là mức đề xuất)
-    // Tạo một đối tượng người dùng với mật khẩu đã được hash
+    console.log(req.body);
     try {
+      const { email } = req.body;
+      const isExisted = await User.findOne({ email: email });
+      if (isExisted) {
+        return res.status(400).json({ message: "Email already existed" });
+      }
+
       bcrypt.hash(req.body.password, 10, async (err, hashedPassword) => {
         if (err) {
-          console.log(err);
+          res.status(err.statusCode).json({ message: err.message });
         } else {
+
           const uNew = new User({
             username: req.body.username,
             email: req.body.email,

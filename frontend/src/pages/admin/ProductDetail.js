@@ -52,6 +52,7 @@ export default function ProductDetail() {
   };
 
   const handleUpdateProduct = () => {
+    
     axios
       .put("/api/product/" + product_id, currentValue)
       .then((res) => {
@@ -98,41 +99,56 @@ export default function ProductDetail() {
             src={
               (productImages.includes(currentImagePreview)
                 ? currentImagePreview
-                : productImages[0]) ||
-              productImage ||
-              productImages[0]
+                : productImages[0]) || productImage
             }
             alt="product"
           />
           <div className="absolute bottom-5 w-full h-[120px] rounded-lg overflow-x-auto scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-slate-500 scrollbar-track-rounded-full">
             <div className="w-fit mx-4 rounded-lg bg-slate-600 bg-opacity-50 h-full flex gap-4 p-2">
               <div className="h-full flex relative group">
-                <img
-                  className="rounded-lg shadow-md"
-                  src={productImage}
-                  alt="product"
-                />
-                <svg
-                  className="size-1/2 absolute top-1/2 right-1/2 translate-x-1/2 -translate-y-1/2 cursor-pointer"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
+                <label
+                  htmlFor="images"
+                  className="h-full w-full flex group cursor-pointer"
                 >
-                  <circle
-                    opacity="0.5"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="#1C274C"
-                    strokeWidth="1.5"
+                  <img
+                    className="rounded-lg shadow-md"
+                    src={productImage}
+                    alt="product"
                   />
-                  <path
-                    d="M15 12L12 12M12 12L9 12M12 12L12 9M12 12L12 15"
-                    stroke="#1C274C"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                  />
-                </svg>
+                  <svg
+                    className="size-1/2 absolute top-1/2 right-1/2 translate-x-1/2 -translate-y-1/2 cursor-pointer"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <circle
+                      opacity="0.5"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="#1C274C"
+                      strokeWidth="1.5"
+                    />
+                    <path
+                      d="M15 12L12 12M12 12L9 12M12 12L12 9M12 12L12 15"
+                      stroke="#1C274C"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                </label>
+
+                <input
+                  id="images"
+                  name="images"
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  className="absolute hidden"
+                  onChange={(e) => {
+                    const imgs = e.target.files;
+                  }}
+                />
               </div>
               {productImages.map((image, index) => {
                 return (
