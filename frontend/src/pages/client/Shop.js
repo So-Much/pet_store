@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import ProductItem from "../../components/ProductItem";
@@ -7,83 +7,62 @@ import { Link } from "react-router-dom";
 import BreadcrumbImageIcon from "../../components/BreadcrumbImageIcon";
 import DividedLine from "../../components/DividedLine";
 import DropdownFilter from "../../components/DropdownFilter";
+import { Product } from "../../components/Product";
+import food from "../../assets/products/food.webp";
+import toy from "../../assets/products/toy.jpg";
+import { ProductModel } from "../../components/ProductModal";
+import axios from "../../utils/axios_config";
+import VND_formatter from "../../utils/VND_formatter";
 
 export default function Shop() {
-  const categories = ["Foods", "Pet Toys", "Vacxin"];
-  return (
-    <div className="mclient_header">
-      <Header />
-      <div className="container mx-auto">
-        <div className="relative">
-          <img
-            src="https://i.pinimg.com/564x/e7/98/78/e79878481f650ad6f6e3ba9737caa45d.jpg"
-            alt="shop"
-            className="w-full h-[400px] object-cover"
-          />
-        </div>
-        {/* main content shop */}
-        <div className="px-12 py-5">
-          <div className="flex ">
-            <div className="w-2/5">
-              <div className="font-semibold text-3xl leading-normal">
-                Our Catogories
-              </div>
-              <DividedLine size={{ width: 40, height: 4 }} />
-              <div className="text-sm text-gray-500">
-                Occaecat eiusmod enim ex veniam aute culpa veniam id ullamco
-                incididunt. Officia ullamco minim deserunt tempor minim deserunt
-                sint eu nulla dolor qui excepteur. Eiusmod voluptate amet
-                ullamco aute labore adipisicing cillum magna proident aliqua.
-                Sit est et et mollit dolor occaecat qui.
-              </div>
-              <div className="my-5">
-                <Link
-                  to={"/readmore"}
-                  className="text-white bg-[#ffd24a] rounded-full px-5 py-3 hover:bg-[#ffbe20] hover:underline"
-                >
-                  Read More
-                </Link>
-              </div>
-            </div>
-            <div className="w-3/5 flex items-center justify-center">
-              <BreadcrumbImageIcon />
-            </div>
-          </div>
-          <div>
-            <div className="flex items-center justify-center flex-col">
-              <div className="text-center font-semibold text-xl ">
-                Trending Product
-              </div>
-              <DividedLine size={{ width: 60, height: 4 }} />
-              {/* filter */}
-              <div>
-                <DropdownFilter />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+	const categories = ["Foods", "Pet Toys", "Vacxin"];
+	const [toggleModel, setToggleMdodel] = useState(false);
+	const displayModel = () => {
+		setToggleMdodel(true);
+		console.log("display model");
+	};
+	const hideModel = () => {
+		setToggleMdodel(false);
+		console.log("hide model");
+	};
+	const [products, setProducts] = useState([]);
+	useEffect(() => {
+		axios
+			.get("/api/product")
+			.then((data) => {
+				setProducts(data.data);
+			})
+			.catch((e) => {
+				console.log(e);
+			});
+	}, []);
+	return (
+		<div className="mclient_header">
+			<Header />
 
-      {/* main content
-      <div className="container mx-auto">
-        <div className="flex">
-          <div className="w-1/3">
-            <div className="p-10">
-              <div className="font-bold text-xl">Categories</div>
-              <ul className="">
-                {categories.map((category) => (
-                  <li className="text-md">
-                    <input type="checkbox" name="categories" className="mr-2" />
-                    {category}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-          <div className="w-2/3"></div>
-        </div>
-      </div> */}
-      <Footer />
-    </div>
-  );
+			{toggleModel ? (
+				<ProductModel
+					onCloseBtnClick={hideModel}
+					name="Thức ăn cho mèo con và mèo mẹ ROYAL CANIN Mother & Babycat"
+					description="Thức ăn hạt cho mèo con và mèo mẹ ROYAL CANIN Mother & Babycat tạo thói quen ăn uống cho mèo. Dựa theo tuổi của mèo, cần cho ăn một ngày 3 lần vào các giờ cố định. Cho ăn tại một chỗ để tạo thói quen tốt cho mèo. Lưu ý không cho ăn quá nhiều. Nên cho mèo ăn thức ăn chế biến riêng, không cho ăn thức ăn thừa của người. Vì thức ăn của người có nhiều thành phần khiến mèo bị rối loạn tiêu hóa, ảnh hưởng đến sức khỏe của mèo. Bảo đảm cung cấp đủ nước uống cho mèo. Nếu thấy nước bị mèo làm bẩn, cần thay nước mới ngay lập tức."
+					price="290.000d"
+				/>
+			) : (
+				<div className="grid grid-cols-4 gap-4">
+					{products.map((el) => {
+						return (
+							<Product
+								name={el.name}
+								img={el.images[0] || food}
+								price={VND_formatter(el.price)}
+								onProductClick={displayModel}
+							/>
+						);
+					})}
+				</div>
+			)}
+			{/* <ProductModel /> */}
+			<Footer />
+		</div>
+	);
 }
