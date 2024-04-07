@@ -1,5 +1,11 @@
+const path = require('path');
+
 const dotenv = require("dotenv");
-dotenv.config();
+const { dirname } = require('path');
+
+dotenv.config({
+  path: __dirname+'/.env',
+});
 
 const env = {
   CLIENT_ID: process.env.CLIENT_ID,
@@ -9,6 +15,9 @@ const env = {
   COOKIE_SECRET: process.env.COOKIE_SECRET,
   NODE_ENV: process.env.NODE_ENV,
   GOOGLE_DEFAULT_PASSWORD_FOR_NEW_USER: process.env.GOOGLE_DEFAULT_PASSWORD_FOR_NEW_USER,
+  JWT_SECRET: process.env.JWT_SECRET,
+  TOKEN_EXPIRE_TIME: process.env.TOKEN_EXPIRE_TIME,
+  REFRESH_TOKEN_EXPIRE_TIME: process.env.REFRESH_TOKEN_EXPIRE_TIME,
 };
 
 module.exports = env;

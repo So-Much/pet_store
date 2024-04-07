@@ -6,6 +6,7 @@ backend/*/node_modules/
 # Ignore .env files (environment variables configuration)
 frontend/.env
 backend/*/.*env
+backend/express/app/config/enviroments/.*env
 
 # Ignore virtual environment directory in fastapi backend
 backend/fastapi/venv/

@@ -1,8 +1,6 @@
-
-
 const Product = require("../models/Product");
 
-
+const serverHost = 'http://localhost:8000/'
 
 module.exports = {
   // ROUTE : [GET]: api/product/page
@@ -26,7 +24,6 @@ module.exports = {
     } catch (error) {
       
     }
-
   },
   // ROUTE : [GET]: api/product
   getAllProducts: async (req, res) => {
@@ -60,9 +57,7 @@ module.exports = {
         brand,
         unit,
       } = req.body;
-      //   const images = req.files.length < 2 ? req.file.path :req.files?.map((file) => file.path);
       const newProduct = new Product({
-        // images,
         name,
         price,
         description,
@@ -109,14 +104,19 @@ module.exports = {
       res.status(500).json({ message: error.message });
     }
   },
-  // ROUTE : [POST]: api/product/images
+  // ROUTE : [POST]: api/product/images/:id
   uploadImages : async (req, res) => {
     try {
-      const images = req.files.map((file) => file.path);
-      res.json(images);
+      const images = req.files.map((file) => serverHost+file.originalname);
+      // console.log(req.files);
+      const product = await Product.findById(req.params.id);
+      product.images = images
+      product.save();
+      res.status(201).json(product);
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
-  }
+  },
+
 };
 

@@ -21,8 +21,7 @@ const storage = multer.diskStorage({
 // features routes
 // ROUTE : []: api/product
 router.get('/page', productController.pagination)
-
-router.post('/images', upload , productController.uploadImages)
+router.post('/images/:id', upload , productController.uploadImages)
 
 // default routes
 // ROUTE : []: api/product

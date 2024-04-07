@@ -1,23 +1,36 @@
-const env = require('../config/enviroments/env')
+const {
+  CLIENT_ID,
+  CLIENT_SECRET,
+  CLIENT_CALLBACK_URL,
+  GOOGLE_DEFAULT_PASSWORD_FOR_NEW_USER,
+  COOKIE_SECRET,
+} = require("../config/enviroments/env");
 
 const ggOptionsStrategy = {
-    clientID: env.GOOGLE_CLIENT_ID,
-    clientSecret: env.GOOGLE_CLIENT_SECRET,
-    callbackURL: env.GOOGLE_CALLBACK_URL
+  clientID: CLIENT_ID,
+  clientSecret: CLIENT_SECRET,
+  callbackURL: CLIENT_CALLBACK_URL,
+};
+
+const localOptions = {
+  usernameField: "email",
+  passwordField: "password",
+  passReqToCallback: true,
 };
 
 const sessionOptions = {
-    secret: env.COOKIE_SECRET,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-        secure: false,
-        httpOnly: true,
-        maxAge: 1000 * 60 * 60 * 24 * 7
-    }
-}
+  secret: COOKIE_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: false,
+    httpOnly: true,
+    maxAge: 1000 * 60 * 60 * 24 * 7,
+  },
+};
 module.exports = {
-    ggOptionsStrategy,
-    GOOGLE_DEFAULT_PASSWORD_FOR_NEW_USER: env.GOOGLE_DEFAULT_PASSWORD_FOR_NEW_USER,
-    sessionOptions
-}
+  ggOptionsStrategy,
+  localOptions,
+  GOOGLE_DEFAULT_PASSWORD_FOR_NEW_USER: GOOGLE_DEFAULT_PASSWORD_FOR_NEW_USER,
+  sessionOptions,
+};
