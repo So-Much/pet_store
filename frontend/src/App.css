@@ -3,16 +3,33 @@
   outline: none;
 } */
 
-
-
+body::-webkit-scrollbar {
+	display: none;
+}
 * {
-  font-family: 'Roboto', sans-serif;
+	font-family: "Roboto", sans-serif;
 }
 
 .mclient_header {
-  margin-top: 76px;
+	margin-top: 76px;
 }
 
 .madmin_sidebar {
-  margin-left: 240px;
+	margin-left: 240px;
+}
+.header {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	transition: transform 0.3s ease-in-out;
+	transform: translateY(-100%);
+}
+
+.App.show .header {
+	transform: translateY(0%);
+}
+
+.App.hide .header {
+	transform: translateY(-100%);
 }
