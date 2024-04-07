@@ -22,6 +22,7 @@ const sessionOptions = {
   secret: COOKIE_SECRET,
   resave: false,
   saveUninitialized: false,
+  keys: ["Cookie secret value"],
   cookie: {
     secure: false,
     httpOnly: true,
