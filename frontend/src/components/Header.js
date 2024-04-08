@@ -5,7 +5,7 @@ import Logo from "../assets/Logo.jpg";
 export default function Header() {
 	return (
 		// make sure margin top is 68px
-		<div className="header">
+		<div className="header z-50">
 			<nav className="fixed w-full z-20 top-0 start-0">
 				<div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4 bg-white dark:bg-gray-900 shadow-md">
 					<Link
