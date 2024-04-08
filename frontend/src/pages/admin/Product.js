@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Sidebar from "../../components/admin/Sidebar";
-import axios from "../../utils/axios_config";
+import {axios} from "../../utils/axios_config";
 import { Link, useNavigate } from "react-router-dom";
 import Pagination from "../../components/Pagination";
 const formatVND = require("../../utils/VND_formatter");

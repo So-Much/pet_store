@@ -4,7 +4,7 @@ import userIcon from "../../assets/user.png";
 import lockIcon from "../../assets/lock.png";
 import RegisterImage from "../../assets/Register_left.jpg";
 import mailIcon from "./../../assets/mail-inbox-app.png";
-import axios from '../../utils/axios_config';
+import {axios} from '../../utils/axios_config';
 
 export default function Register() {
   const [email, setEmail] = useState("");

@@ -15,7 +15,7 @@ import Inbox from "./pages/admin/Inbox";
 import User from "./pages/admin/User";
 import Product from "./pages/admin/Product";
 import ProductDetail from "./pages/admin/ProductDetail";
-import axios from "./utils/axios_config";
+import {axios} from "./utils/axios_config";
 // import Schedule from "./pages/admin/Schedule";
 
 function App() {
@@ -26,19 +26,6 @@ function App() {
   const token = localStorage.getItem("token");
 
   // check token is valid
-  useEffect(() => {
-    axios.get(
-      "/api/user",
-      {
-        data: token,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-  }, [token]);
   return (
     <div className="max-w-[1440px]">
       <Routes>

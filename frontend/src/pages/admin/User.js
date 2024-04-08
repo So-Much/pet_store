@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import Sidebar from "../../components/admin/Sidebar";
-import axios from "./../../utils/axios_config";
+import {axios} from "./../../utils/axios_config";
 import Selectec_ from "../../components/Selectec_";
 import { toast } from "react-toastify";
 const formatVND = require("../../utils/VND_formatter");

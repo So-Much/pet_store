@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import axios from "../../utils/axios_config";
+import { axios } from "../../utils/axios_config";
 import AutocompleteInput from "../../components/AutocompleteInput";
 import RadioInput from "../../components/RadioInput";
 
@@ -52,7 +52,6 @@ export default function ProductDetail() {
   };
 
   const handleUpdateProduct = () => {
-    
     axios
       .put("/api/product/" + product_id, currentValue)
       .then((res) => {
