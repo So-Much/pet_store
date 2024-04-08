@@ -5,10 +5,15 @@ import Carousel from "../../components/Carousel";
 import Feature from "../../components/Feature";
 import Cta from "../../components/Cta";
 import Cta2 from "../../components/Cta2";
+import { useLocation } from "react-router-dom";
 
 export default function Home() {
 	const [showHeader, setShowHeader] = useState(true);
 	const [prevScrollPos, setPrevScrollPos] = useState(0);
+
+	const location = useLocation();
+	console.log(location.state);
+
 	useEffect(() => {
 		const handleScroll = () => {
 			const currentScrollPos = window.pageYOffset;

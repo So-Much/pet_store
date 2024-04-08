@@ -3,7 +3,8 @@ const path = require('path');
 
 
 const router = require('express').Router();
-const productController = require('../controllers/productController')
+const productController = require('../controllers/productController');
+const { authencationToken } = require('../services/jwtServices');
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -20,17 +21,18 @@ const storage = multer.diskStorage({
 
 // features routes
 // ROUTE : []: api/product
-router.get('/page', productController.pagination)
+router.get('/page',authencationToken(['ADMIN']), productController.pagination)
 router.post('/images/:id', upload , productController.uploadImages)
 
 // default routes
 // ROUTE : []: api/product
+router.delete('/selectedProducts', productController.deleteProducts)
 router.get('/category', productController.getAllCategories)
 router.post('/create', productController.createProduct)
-router.delete('/:id', productController.deleteProduct)
+router.delete('/:id',authencationToken(['ADMIN']) ,productController.deleteProduct)
 router.put('/:id', productController.updateProduct)
 router.get('/:id', productController.getProduct)
-router.get('/', productController.getAllProducts)
+router.get('/',authencationToken(['ADMIN']), productController.getAllProducts)
 
 
 

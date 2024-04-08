@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import PageNotFound_404 from "./exceptions/PageNotFound_404";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ToastContainer } from "react-toastify";
 
 import Home from "./pages/client/Home";
@@ -15,12 +15,30 @@ import Inbox from "./pages/admin/Inbox";
 import User from "./pages/admin/User";
 import Product from "./pages/admin/Product";
 import ProductDetail from "./pages/admin/ProductDetail";
+import axios from "./utils/axios_config";
 // import Schedule from "./pages/admin/Schedule";
 
 function App() {
   const [isAuthenticated, setAuthenticated] = useState(false);
   // #fff3c7
+  const [user, setUser] = useState({});
 
+  const token = localStorage.getItem("token");
+
+  // check token is valid
+  useEffect(() => {
+    axios.get(
+      "/api/user",
+      {
+        data: token,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+  }, [token]);
   return (
     <div className="max-w-[1440px]">
       <Routes>
@@ -35,10 +53,7 @@ function App() {
           <Route path="inbox" element={<Inbox />} />
           <Route path="user" element={<User />} />
           <Route path="product" element={<Product />} />
-          <Route
-            path="product/:product_id"
-            element={<ProductDetail />}
-          />
+          <Route path="product/:product_id" element={<ProductDetail />} />
         </Route>
         {/* <Route path="/admin/schedule" element={<Schedule />} /> */}
 

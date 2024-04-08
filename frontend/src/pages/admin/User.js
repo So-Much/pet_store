@@ -418,7 +418,7 @@ export default function User() {
                           onClick={() => {
                             setCurrentSelectedUser({});
                           }}
-                          className="text-base bg-slate-400 hover:bg-slate-500 p-2 rounded-md px-3"
+                          className="text-base bg-slate-200 hover:bg-slate-300 p-2 rounded-md px-3"
                         >
                           Close
                         </button>

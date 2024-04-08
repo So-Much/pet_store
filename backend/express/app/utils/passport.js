@@ -10,6 +10,7 @@ const ggOptionsStrategy = {
   clientID: CLIENT_ID,
   clientSecret: CLIENT_SECRET,
   callbackURL: CLIENT_CALLBACK_URL,
+  scope: ["email", "profile"],
 };
 
 const localOptions = {
@@ -21,8 +22,8 @@ const localOptions = {
 const sessionOptions = {
   secret: COOKIE_SECRET,
   resave: false,
-  saveUninitialized: false,
-  keys: ["Cookie secret value"],
+  saveUninitialized: true,
+  // keys: ["Cookie secret value"],
   cookie: {
     secure: false,
     httpOnly: true,

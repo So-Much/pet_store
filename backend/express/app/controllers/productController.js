@@ -1,3 +1,4 @@
+const { response } = require("express");
 const Product = require("../models/Product");
 
 const serverHost = 'http://localhost:8000/'
@@ -93,6 +94,16 @@ module.exports = {
       res.status(201).json(delProducted);
     } catch (err) {
       res.status(500).json({ message: err.message });
+    }
+  },
+  // ROUTE : [DELETE]: api/product/selectedProducts
+  deleteProducts : async (req, res) => {
+    try {
+      const products = await Product.deleteMany({_id: {$in: req.body.products}})
+      res.status(200).json(products)
+    } catch (error) {
+      console.log(error);
+      return res.status(404).json({message: error.message});
     }
   },
   // ROUTE : [GET]: api/product/category

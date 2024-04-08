@@ -1,7 +1,19 @@
-import axios from "axios";
+import axiosBase from "axios";
 
-const axiosInstance = axios.create({
-    baseURL: 'http://localhost:8000'
-})
+const axios = axiosBase.create({
+  baseURL: "http://localhost:8000",
+});
 
-export default axiosInstance;
+const axiosPermissionsRoles = (token) => {
+  return axiosBase.create({
+    baseURL: "http://localhost:8000",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export { 
+    axios, 
+    axiosPermissionsRoles 
+};
