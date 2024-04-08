@@ -2,6 +2,10 @@ import React, { useEffect, useState } from "react";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import { type } from "@testing-library/user-event/dist/type";
+// import { Axios } from "axios";
+import axios from "../../utils/axios_config";
+import { ResultTable, TableItems } from "../../components/ResultTable";
+// import axios from "axios";
 
 export default function Scan() {
 	const [imgSource, setImgSource] = useState("");
@@ -9,6 +13,10 @@ export default function Scan() {
 	const [file, setFile] = useState(null);
 	const [petName, setPetName] = useState("Your Pet Name");
 	const [percentage, setPercentage] = useState(0);
+	const [products, setProducts] = useState([]);
+	const [petAge, setPetAge] = useState(-1);
+	const [displayItemTable, setDisplayItemTable] = useState(false);
+
 	const petList = {
 		0: "Abyssinian",
 		1: "American Bulldog",
@@ -90,7 +98,37 @@ export default function Scan() {
 			setUploaded(true);
 		}
 	};
-
+	const getPetItems = () => {
+		axios
+			.get("/api/product")
+			.then((data) => {
+				const productsAr = [];
+				setProducts([]);
+				data.data.map((e) => {
+					if (e.items != null) {
+						e.items.map((item) => {
+							if (item.pet_name == petName && item.ages.length > 0) {
+								item.ages.map((age) => {
+									if (age == petAge) {
+										productsAr.push(e);
+									}
+								});
+							}
+						});
+					}
+				});
+				setProducts(productsAr);
+				setDisplayItemTable(true);
+				console.log(displayItemTable);
+			})
+			.catch((e) => {
+				console.log(e);
+			});
+	};
+	const handleInputChange = (e) => {
+		setPetAge(parseInt(e.target.value));
+		console.log(e.target.value);
+	};
 	function LoadSection() {
 		if (!uploaded) {
 			return (
@@ -186,12 +224,13 @@ export default function Scan() {
 		setPetName("Your Pet Name");
 		setPercentage(0);
 	}
+
 	return (
 		<div className="mclient_header">
 			<Header />
 
 			{/* upload section */}
-			<div className="container flex justify-center items-center p-4">
+			<div className="container flex flex-col justify-center items-center p-4">
 				<div class="flex w-4/5">
 					{LoadSection()}
 					<div className="flex flex-1 flex-col justify-center items-center p-4">
@@ -203,100 +242,40 @@ export default function Scan() {
 							</div>
 						</div>
 						<p className="p-2 text-xs">{"Accuracy: " + percentage + "%"}</p>
-						{/* table */}
-
-						<div class="flex min-h-screen justify-center">
-							<div class="overflow-x-auto">
-								<table class="min-w-full bg-white shadow-md rounded-xl">
-									<thead>
-										<tr class="bg-blue-gray-100 text-gray-700">
-											<th class="py-3 px-4 text-left">Stock Name</th>
-											<th class="py-3 px-4 text-left">Price</th>
-											<th class="py-3 px-4 text-left">Quantity</th>
-											<th class="py-3 px-4 text-left">Total</th>
-											<th class="py-3 px-4 text-left">Action</th>
-										</tr>
-									</thead>
-									<tbody class="text-blue-gray-900">
-										<tr class="border-b border-blue-gray-200">
-											<td class="py-3 px-4">Company A</td>
-											<td class="py-3 px-4">$50.25</td>
-											<td class="py-3 px-4">100</td>
-											<td class="py-3 px-4">$5025.00</td>
-											<td class="py-3 px-4">
-												<a
-													href="#"
-													class="font-medium text-blue-600 hover:text-blue-800"
-												>
-													Edit
-												</a>
-											</td>
-										</tr>
-										<tr class="border-b border-blue-gray-200">
-											<td class="py-3 px-4">Company B</td>
-											<td class="py-3 px-4">$75.60</td>
-											<td class="py-3 px-4">150</td>
-											<td class="py-3 px-4">$11340.00</td>
-											<td class="py-3 px-4">
-												<a
-													href="#"
-													class="font-medium text-blue-600 hover:text-blue-800"
-												>
-													Edit
-												</a>
-											</td>
-										</tr>
-										<tr class="border-b border-blue-gray-200">
-											<td class="py-3 px-4">Company C</td>
-											<td class="py-3 px-4">$30.80</td>
-											<td class="py-3 px-4">200</td>
-											<td class="py-3 px-4">$6160.00</td>
-											<td class="py-3 px-4">
-												<a
-													href="#"
-													class="font-medium text-blue-600 hover:text-blue-800"
-												>
-													Edit
-												</a>
-											</td>
-										</tr>
-										<tr class="border-b border-blue-gray-200">
-											<td class="py-3 px-4 font-medium">Total Wallet Value</td>
-											<td class="py-3 px-4"></td>
-											<td class="py-3 px-4"></td>
-											<td class="py-3 px-4 font-medium">$22525.00</td>
-											<td class="py-3 px-4"></td>
-										</tr>
-									</tbody>
-								</table>
-								<div class="w-full pt-5 px-4 mb-8 mx-auto ">
-									<div class="text-sm text-gray-700 py-1 text-center">
-										Made with{" "}
-										<a
-											class="text-gray-700 font-semibold"
-											href="https://www.material-tailwind.com/docs/html/table/?ref=tailwindcomponents"
-											target="_blank"
-										>
-											Material Tailwind
-										</a>{" "}
-										by{" "}
-										<a
-											href="https://www.creative-tim.com?ref=tailwindcomponents"
-											class="text-gray-700 font-semibold"
-											target="_blank"
-										>
-											{" "}
-											Creative Tim
-										</a>
-										.
-									</div>
+						{percentage > 0 ? (
+							<div>
+								<div className="text-center p-4">
+									Enter your pet age (month)
+								</div>
+								<div class="flex gap-4">
+									<input
+										class="h-12 min-w-[12rem] rounded-lg border-emerald-500 indent-4 text-emerald-900 shadow-lg focus:outline-none focus:ring focus:ring-emerald-600"
+										type="text"
+										placeholder="Your pet name"
+										onChange={handleInputChange}
+									/>
+									<button
+										class="h-12 min-w-[8rem] rounded-lg border-2 border-emerald-600 bg-emerald-500 text-emerald-50 shadow-lg hover:bg-emerald-600 focus:outline-none focus:ring focus:ring-emerald-600"
+										onClick={getPetItems}
+									>
+										Submit
+									</button>
 								</div>
 							</div>
-						</div>
+						) : (
+							""
+						)}
+						{/* table */}
 					</div>
 				</div>
+				<div>
+					{setDisplayItemTable ? (
+						<ResultTable items={products} />
+					) : (
+						"Your products list display here"
+					)}
+				</div>
 			</div>
-
 			<Footer />
 		</div>
 	);

@@ -8,7 +8,7 @@ export function Product(props) {
 					onClick={props.onProductClick}
 				>
 					<img
-						className="w-full rounded-lg object-cover object-center w-32"
+						className="w-full rounded-lg object-cover object-center"
 						src={props.img}
 						alt="product"
 					/>
