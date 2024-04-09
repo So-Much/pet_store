@@ -5,10 +5,12 @@ import Carousel from "../../components/Carousel";
 import Feature from "../../components/Feature";
 import Cta from "../../components/Cta";
 import Cta2 from "../../components/Cta2";
+import axios from "../../utils/axios_config";
 
 export default function Home() {
 	const [showHeader, setShowHeader] = useState(true);
 	const [prevScrollPos, setPrevScrollPos] = useState(0);
+	// hide nav bar
 	useEffect(() => {
 		const handleScroll = () => {
 			const currentScrollPos = window.pageYOffset;
@@ -22,6 +24,18 @@ export default function Home() {
 			window.removeEventListener("scroll", handleScroll);
 		};
 	}, [prevScrollPos]);
+	useEffect(() => {
+		axios
+			.get("/api/cart")
+			.then((data) => {
+				// setProducts(data.data);
+				console.log(data);
+			})
+			.catch((e) => {
+				console.log(e);
+			});
+	}, []);
+
 	return (
 		<div className="test">
 			{showHeader && <Header />}

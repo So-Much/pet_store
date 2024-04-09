@@ -269,10 +269,10 @@ export default function Scan() {
 					</div>
 				</div>
 				<div>
-					{setDisplayItemTable ? (
+					{displayItemTable ? (
 						<ResultTable items={products} />
 					) : (
-						"Your products list display here"
+						"Your products list will display here"
 					)}
 				</div>
 			</div>
