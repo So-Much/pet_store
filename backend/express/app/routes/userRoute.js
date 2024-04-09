@@ -7,6 +7,7 @@ const { USER_ROLES } = require("../utils/Constant");
 
 
 // ROUTE : []: api/user
+
 router.get('/current', authencationToken([...USER_ROLES.ALL]), (req, res, next) => {
   const { password, ...userWithoutPass } = req.user;
   res.status(200).json(userWithoutPass);

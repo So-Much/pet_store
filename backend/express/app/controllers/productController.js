@@ -26,6 +26,15 @@ module.exports = {
       
     }
   },
+  // ROUTE : [GET]: api/product/images/:id
+  getImages : async (req, res) => {
+    try {
+      const product = await Product.findById(req.params.id);
+      res.json(product.images);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  },
   // ROUTE : [GET]: api/product
   getAllProducts: async (req, res) => {
     try {
@@ -118,16 +127,26 @@ module.exports = {
   // ROUTE : [POST]: api/product/images/:id
   uploadImages : async (req, res) => {
     try {
-      const images = req.files.map((file) => serverHost+file.originalname);
+      // console.log(req.file);
+      // console.log("uploadImages");
+      const images = req.files.map((file) => serverHost+file.originalname)
+      // console.log("🚀 ~ uploadImages: ~ images:", images)
+      // console.log("uploadImages done");
       // console.log(req.files);
       const product = await Product.findById(req.params.id);
-      product.images = images
       product.save();
       res.status(201).json(product);
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
   },
+  uploadImage : async (req, res) => {
+    try {
+      console.log(req.file);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
 };
 

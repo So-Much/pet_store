@@ -17,10 +17,12 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer({ storage }).array("images", 10);
+const uploads = multer({ storage }).array("images", 10);
+const upload = multer({ storage }).single("image");
 
 // features routes
 // ROUTE : []: api/product
+router.get('/images/:id', productController.getImages)
 router.get(
   "/page",
   authencationToken([...USER_ROLES.PERMISSIONS_LIMIT_PRODUCTS]),
@@ -29,9 +31,11 @@ router.get(
 router.post(
   "/images/:id",
   authencationToken([...USER_ROLES.PERMISSIONS_LIMIT_PRODUCTS]),
-  upload,
+  uploads,
   productController.uploadImages
 );
+
+router.post('/image/:id', upload, productController.uploadImage)
 
 // default routes
 // ROUTE : []: api/product

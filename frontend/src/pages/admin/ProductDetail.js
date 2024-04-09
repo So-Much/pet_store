@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { axios } from "../../utils/axios_config";
+import { axios, axiosPermissionsRoles } from "../../utils/axios_config";
 import AutocompleteInput from "../../components/AutocompleteInput";
 import RadioInput from "../../components/RadioInput";
 
@@ -13,6 +13,11 @@ export default function ProductDetail() {
   const [currentValue, setCurrentValue] = useState({});
   const [productImages, setProductImages] = useState([]);
   const [currentImagePreview, setCurrentImagePreview] = useState("");
+
+  const [images, setImages] = useState([]);
+  const [productImagesPreview, setProductImagesPreview] = useState([]);
+
+  const [uploadImages, setUploadImages] = useState([]);
   const navigate = useNavigate();
 
   const [showAcceptModal, setShowAcceptModal] = useState(false);
@@ -20,24 +25,24 @@ export default function ProductDetail() {
 
   const { product_id } = useParams();
 
-  console.log("currentValue:", currentValue);
-
-  useEffect(() => {
-    setProductImages([
-      "https://i.pinimg.com/474x/72/10/8a/72108ac216947eef5ec7cd031516cc49.jpg",
-      "https://source.unsplash.com/random",
-    ]);
-  }, []);
-  console.log(currentValue);
-
   const handleDeleteImage = (e) => {
     const image = e.target.dataset.name;
-    const images = productImages.filter((img) => img !== image);
-    setProductImages(images);
+    const images = productImagesPreview.filter((img) => img !== image);
+    setProductImagesPreview(images);
     setCurrentValue((prev) => ({
       ...prev,
       images: images,
     }));
+  };
+
+  const handleImageUploading = (e) => {
+    const files = e.target.files;
+    const images_url = Array.from(files).map((file) =>
+      URL.createObjectURL(file)
+    );
+    console.log("Images URL: ", images_url);
+    setProductImagesPreview((prev) => [...prev, ...images_url]);
+    setImages((prev) => [...prev, ...e.target.files]);
   };
 
   const handleValueChanging = (e) => {
@@ -52,7 +57,12 @@ export default function ProductDetail() {
   };
 
   const handleUpdateProduct = () => {
-    axios
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/signin");
+      return;
+    }
+    axiosPermissionsRoles(token)
       .put("/api/product/" + product_id, currentValue)
       .then((res) => {
         console.log("Product is updated successfully");
@@ -60,6 +70,37 @@ export default function ProductDetail() {
         navigate("/admin/product");
       })
       .catch((err) => console.log(err));
+    const formData = new FormData();
+    formData.append("images", images);
+    console.log("Images: ", images);
+    console.log("FormData: ", formData);
+    axiosPermissionsRoles(token)
+      .post("/api/product/images/" + product_id, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => console.log(err));
+    // fetch('http://localhost:8080/api/product/images/'+ product_id, {
+    //   method: 'POST',
+    //   body: {
+    //     images: [
+    //       ...images
+    //     ]
+
+    //   },
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //     'Authorization': 'Bearer ' + token
+    //   },
+    // })
+    // .then(res => {
+    //   console.log(res);
+    // })
+    // .catch((err) => console.log(err));
   };
 
   useEffect(() => {
@@ -71,6 +112,16 @@ export default function ProductDetail() {
       .get("/api/product/category")
       .then((res) => setCategories(res.data))
       .catch((err) => console.log(err));
+    axios
+      .get("/api/product/images/" + product_id)
+      .then((res) => {
+        console.log(res.data);
+        setProductImages(res.data);
+        setProductImagesPreview(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
   return (
     <div className="flex gap-10 p-4">
@@ -96,9 +147,9 @@ export default function ProductDetail() {
           <img
             className="w-full min-h-dvh max-h-dvh object-contain rounded-xl object-center bg-slate-300"
             src={
-              (productImages.includes(currentImagePreview)
+              (productImagesPreview.includes(currentImagePreview)
                 ? currentImagePreview
-                : productImages[0]) || productImage
+                : productImagesPreview[0]) || productImage
             }
             alt="product"
           />
@@ -145,16 +196,19 @@ export default function ProductDetail() {
                   multiple
                   className="absolute hidden"
                   onChange={(e) => {
-                    const imgs = e.target.files;
+                    handleImageUploading(e);
                   }}
                 />
               </div>
-              {productImages.map((image, index) => {
+              {productImagesPreview.map((image, index) => {
                 return (
                   <div className="h-full flex relative group" key={index}>
                     <img
-                      onClick={(e) => setCurrentImagePreview(e.target.src)}
-                      className="rounded-lg hover:scale-105 shadow-md"
+                      onClick={(e) => {
+                        setCurrentImagePreview(e.target.src);
+                        console.log(e.target.src);
+                      }}
+                      className="rounded-lg w-full object-contain hover:scale-105 shadow-md"
                       src={image}
                       alt="product"
                     />
@@ -228,6 +282,7 @@ export default function ProductDetail() {
             onChange={handleValueChanging}
             className="w-1/2 p-2 border border-gray-300 rounded-md font-normal ml-2"
           />
+          <span className="flex items-center justify-center p-2">₫</span>
         </div>
         <div className="font-medium text-base flex">
           Quantity:
@@ -239,6 +294,9 @@ export default function ProductDetail() {
             onChange={handleValueChanging}
             className="w-1/2 p-2 border border-gray-300 rounded-md font-normal ml-2"
           />
+          <span className="flex items-center justify-center p-2">
+            {product.unit}
+          </span>
         </div>
         <div>
           {" "}
@@ -276,9 +334,10 @@ export default function ProductDetail() {
             onChange={handleValueChanging}
             className="w-1/2 p-2 border border-gray-300 rounded-md font-normal ml-2"
           />
+          <span className="flex items-center justify-center p-2">₫</span>
         </div>
         <div className="font-medium text-base">
-          Sold: <span> {product.sold}</span>
+          Sold: <span> {`${product.sold} ${product.unit}`}</span>
         </div>
         <div>
           <RadioInput
@@ -292,7 +351,9 @@ export default function ProductDetail() {
           <button
             className="bg-indigo-500 text-white p-2 px-4 rounded-md"
             onClick={() => {
-              const isChanged = Object.keys(currentValue).length > 0;
+              const isChanged =
+                Object.keys(currentValue).length > 0 ||
+                productImagesPreview.length > 0;
               setShowAcceptModal(isChanged);
               if (!isChanged) navigate("/admin/product");
             }}
