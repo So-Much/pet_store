@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { axiosPermissionsRoles } from "../../utils/axios_config";
 
 export default function Sidebar() {
   const [user, setUser] = useState(null);
+
+  const navigate = useNavigate();
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -22,7 +25,7 @@ export default function Sidebar() {
           console.log(err);
         });
     } catch (error) {}
-  },[])
+  }, []);
   return (
     <div>
       <button
@@ -222,7 +225,15 @@ m198 -101 c52 -22 98 -68 123 -122 44 -94 27 -183 -51 -260 -77 -78 -166 -95
                     d="M1 8h11m0 0L8 4m4 4-4 4m4-11h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-3"
                   />
                 </svg>
-                <span className="flex-1 ms-3 whitespace-nowrap">Sign Out</span>
+                <span
+                  className="flex-1 ms-3 whitespace-nowrap"
+                  onClick={() => {
+                    localStorage.removeItem("token");
+                    navigate("/signin");
+                  }}
+                >
+                  Sign Out
+                </span>
               </Link>
             </li>
           </ul>
