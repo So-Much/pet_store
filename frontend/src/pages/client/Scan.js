@@ -3,9 +3,10 @@ import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import { type } from "@testing-library/user-event/dist/type";
 // import { Axios } from "axios";
-import {axios} from "../../utils/axios_config";
+import { axios } from "../../utils/axios_config";
 import { ResultTable, TableItems } from "../../components/ResultTable";
 // import axios from "axios";
+import { axiosPermissionsRoles } from "../../utils/axios_config";
 
 export default function Scan() {
 	const [imgSource, setImgSource] = useState("");
@@ -16,6 +17,7 @@ export default function Scan() {
 	const [products, setProducts] = useState([]);
 	const [petAge, setPetAge] = useState(-1);
 	const [displayItemTable, setDisplayItemTable] = useState(false);
+	const [userID, setUserID] = useState("");
 
 	const petList = {
 		0: "Abyssinian",
@@ -56,10 +58,13 @@ export default function Scan() {
 		35: "Wheaten Terrier",
 		36: "Yorkshire Terrier",
 	};
-
+	useEffect(() => {
+		getUserID();
+	}, []);
 	const handleUpload = (file) => {
 		const formData = new FormData();
 		formData.append("file", file);
+		formData.append("userID", userID);
 		setPetName("");
 		fetch("http://127.0.0.1:8000/uploadImg", {
 			method: "POST",
@@ -90,7 +95,9 @@ export default function Scan() {
 				setPercentage(0);
 			});
 	};
+
 	const uploadFile = (e) => {
+		console.log(userID);
 		if (e.target.files.length) {
 			const src = URL.createObjectURL(e.target.files[0]);
 			setImgSource(src);
@@ -119,7 +126,6 @@ export default function Scan() {
 				});
 				setProducts(productsAr);
 				setDisplayItemTable(true);
-				console.log(displayItemTable);
 			})
 			.catch((e) => {
 				console.log(e);
@@ -127,8 +133,18 @@ export default function Scan() {
 	};
 	const handleInputChange = (e) => {
 		setPetAge(parseInt(e.target.value));
-		console.log(e.target.value);
 	};
+	function getUserID() {
+		const token = localStorage.getItem("token");
+		axiosPermissionsRoles(token)
+			.get("/api/user/current")
+			.then((data) => {
+				setUserID(data.data._id);
+			})
+			.catch((e) => {
+				console.log(e);
+			});
+	}
 	function LoadSection() {
 		if (!uploaded) {
 			return (

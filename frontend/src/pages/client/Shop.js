@@ -4,7 +4,7 @@ import Footer from "../../components/Footer";
 import { Product } from "../../components/Product";
 import food from "../../assets/products/food.webp";
 import { ProductModel } from "../../components/ProductModal";
-import {axios, axiosPermissionsRoles} from "../../utils/axios_config";
+import { axios } from "../../utils/axios_config";
 import VND_formatter from "../../utils/VND_formatter";
 
 export default function Shop() {
@@ -29,6 +29,7 @@ export default function Shop() {
 				console.log(e);
 			});
 	}, []);
+
 	return (
 		<div className="mclient_header">
 			<Header />

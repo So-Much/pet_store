@@ -1,4 +1,4 @@
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, File, UploadFile, Form
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -8,6 +8,7 @@ import numpy as np
 from PIL import Image
 import datetime
 from fastapi.staticfiles import StaticFiles
+import os
 
 app = FastAPI()
 
@@ -31,15 +32,19 @@ async def root()    :
     return "Server started"
 
 @app.post("/uploadImg")
-async def getImage(file : UploadFile = File(...)):
+async def getImage(file : UploadFile = File(...), userID: str = Form(...)):
     image = await file.read()
     image = Image.open(BytesIO(image))
-    print(type(image))
+    
+    if(userID):
+        isExist = os.path.exists(userID)
+        if not isExist:
+            os.mkdir(userID)
    
     # download user image
     dateUpload = datetime.datetime.now().strftime("%m_%d_%Y_%H_%M_%S")
     imageName = dateUpload + ".jpg"
-    imagePath = "./userImage/{imgName}".format(imgName=imageName)
+    imagePath = "./{userFolder}/{imgName}".format(userFolder=userID,imgName=imageName)
     with open(imagePath, "wb") as f:
         image.save(f)
 

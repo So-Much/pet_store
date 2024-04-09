@@ -20,7 +20,7 @@ export default function CartIcon() {
 			{openToast ? (
 				<div>
 					<div
-						class="fixed bottom-5 right-5 max-w-xs bg-green-500 text-sm text-white rounded-md shadow-lg mb-3 ml-3"
+						class="fixed bottom-5 right-5 max-w-xs bg-green-500 text-sm text-white rounded-md shadow-lg mb-3 ml-3 z-50"
 						role="alert"
 					>
 						<div class="flex p-4">Product was added to your card</div>
