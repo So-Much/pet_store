@@ -22,7 +22,7 @@ export default function Scan() {
 	const petList = {
 		0: "Abyssinian",
 		1: "American Bulldog",
-		2: "American_pit_bull_terrier",
+		2: "American Pit Bull Terrier",
 		3: "Basset Hound",
 		4: "Beagle",
 		5: "Bengal",
@@ -40,8 +40,8 @@ export default function Scan() {
 		17: "Japanese Chin",
 		18: "Keeshond",
 		19: "Leonberger",
-		20: "Maine_coon",
-		21: "Miniature_pinscher",
+		20: "Maine Coon",
+		21: "Miniature Pinscher",
 		22: "Newfoundland",
 		23: "Persian",
 		24: "Pomeranian",
@@ -86,13 +86,50 @@ export default function Scan() {
 				}
 				if (max > 0.8) {
 					setPetName(petList[position]);
+					console.log(petList[position]);
 					setPercentage(Math.round(max * 10000) / 100);
+					handleSuccessImg(file);
+				} else {
+					setPetName("Cannot scan this image!");
+					setPercentage(0);
+					handleErrorImg(file);
 				}
 			})
 			.catch((error) => {
 				console.log("Error ", error);
 				setPetName("Cannot scan this image!");
 				setPercentage(0);
+				handleErrorImg(file);
+			});
+	};
+	const handleSuccessImg = (file) => {
+		const formData = new FormData();
+		formData.append("file", file);
+		formData.append("userID", userID);
+		fetch("http://127.0.0.1:8000/saveSuccessImg", {
+			method: "POST",
+			body: formData,
+		})
+			.then((response) => {
+				return response.json();
+			})
+			.then((data) => {
+				console.log(data);
+			});
+	};
+	const handleErrorImg = (file) => {
+		const formData = new FormData();
+		formData.append("file", file);
+		formData.append("userID", userID);
+		fetch("http://127.0.0.1:8000/saveErrorImg", {
+			method: "POST",
+			body: formData,
+		})
+			.then((response) => {
+				return response.json();
+			})
+			.then((data) => {
+				console.log(data);
 			});
 	};
 
@@ -267,7 +304,7 @@ export default function Scan() {
 									<input
 										class="h-12 min-w-[12rem] rounded-lg border-emerald-500 indent-4 text-emerald-900 shadow-lg focus:outline-none focus:ring focus:ring-emerald-600"
 										type="text"
-										placeholder="Your pet name"
+										placeholder="Your pet age"
 										onChange={handleInputChange}
 									/>
 									<button
