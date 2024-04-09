@@ -11,7 +11,7 @@ export default function Product() {
 	const [productsSelected, setProductsSelected] = useState([]);
 	const [checkedAll, setCheckedAll] = useState(false);
 	const [changed, setChanged] = useState(false);
-	const [openModel, setOpenModel] = useState(true);
+	const [openModel, setOpenModel] = useState(false);
 
 	const [currentPage, setCurrentPage] = useState(1);
 	const [totalPages, setTotalPages] = useState(0);
