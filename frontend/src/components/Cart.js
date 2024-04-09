@@ -4,7 +4,7 @@ import { Dropdown } from "flowbite-react";
 import { HiCog, HiCurrencyDollar, HiLogout, HiViewGrid } from "react-icons/hi";
 import { axiosPermissionsRoles } from "../utils/axios_config";
 
-export default function Cart() {
+export default function Cart({ handleLogout }) {
   const [user, setUser] = useState(null);
   const permissionRoles = ["STAFF", "MANAGER", "ADMIN"];
   const [isReRender, setIsReRender] = useState(false);
@@ -196,6 +196,7 @@ export default function Cart() {
             onClick={() => {
               localStorage.removeItem("token");
               setIsReRender(!isReRender);
+              handleLogout();
             }}
           >
             Sign out
