@@ -23,7 +23,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-app.mount("/static", StaticFiles(directory="userImage"), name="static")
+# app.mount("/static", StaticFiles(directory="userImage"), name="static")
 class BaseItem(BaseModel):
     prediction: list[list[float]]
 
@@ -35,19 +35,6 @@ async def root()    :
 async def getImage(file : UploadFile = File(...), userID: str = Form(...)):
     image = await file.read()
     image = Image.open(BytesIO(image))
-    
-    if(userID):
-        isExist = os.path.exists(userID)
-        if not isExist:
-            os.mkdir(userID)
-   
-    # download user image
-    dateUpload = datetime.datetime.now().strftime("%m_%d_%Y_%H_%M_%S")
-    imageName = dateUpload + ".jpg"
-    imagePath = "./{userFolder}/{imgName}".format(userFolder=userID,imgName=imageName)
-    with open(imagePath, "wb") as f:
-        image.save(f)
-
 
     image = image.resize((640, 640))  # Resize the image to match the desired shape
 
@@ -73,3 +60,43 @@ async def getImage(file : UploadFile = File(...), userID: str = Form(...)):
     # print({"prediction": output_tensor.tolist()})
     # return {"prediction": output_tensor.tolist()}
     return JSONResponse(content=output_tensor.tolist())
+
+@app.post("/saveSuccessImg")
+async def getErrorImage(file : UploadFile = File(...), userID: str = Form(...)):
+    image = await file.read()
+    image = Image.open(BytesIO(image))
+    if image.mode == 'RGBA':
+        image = image.convert('RGB')
+    if(userID):
+        if not os.path.exists(userID + "/Success"):
+            if(not os.path.exists(userID)):
+                os.mkdir(userID)
+            os.mkdir(userID + "/Success")
+        
+            # download user image
+        dateUpload = datetime.datetime.now().strftime("%m_%d_%Y_%H_%M_%S")
+        imageName = dateUpload + ".jpg"
+        imagePath = "./{userFolder}/Success/{imgName}".format(userFolder=userID,imgName=imageName)
+        with open(imagePath, "wb") as f:
+            image.save(f)
+    return JSONResponse(content="Success")
+
+@app.post("/saveErrorImg")
+async def getErrorImage(file : UploadFile = File(...), userID: str = Form(...)):
+    image = await file.read()
+    image = Image.open(BytesIO(image))
+    if image.mode == 'RGBA':
+        image = image.convert('RGB')
+    if(userID):
+        if not os.path.exists(userID + "/Error"):
+            if(not os.path.exists(userID)):
+                os.mkdir(userID)
+            os.mkdir(userID + "/Error")
+        
+            # download user image
+        dateUpload = datetime.datetime.now().strftime("%m_%d_%Y_%H_%M_%S")
+        imageName = dateUpload + ".jpg"
+        imagePath = "./{userFolder}/Error/{imgName}".format(userFolder=userID,imgName=imageName)
+        with open(imagePath, "wb") as f:
+            image.save(f)
+    return JSONResponse(content="Success")

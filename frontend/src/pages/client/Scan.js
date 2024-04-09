@@ -86,13 +86,50 @@ export default function Scan() {
 				}
 				if (max > 0.8) {
 					setPetName(petList[position]);
+					console.log(petList[position]);
 					setPercentage(Math.round(max * 10000) / 100);
+					handleSuccessImg(file);
+				} else {
+					setPetName("Cannot scan this image!");
+					setPercentage(0);
+					handleErrorImg(file);
 				}
 			})
 			.catch((error) => {
 				console.log("Error ", error);
 				setPetName("Cannot scan this image!");
 				setPercentage(0);
+				handleErrorImg(file);
+			});
+	};
+	const handleSuccessImg = (file) => {
+		const formData = new FormData();
+		formData.append("file", file);
+		formData.append("userID", userID);
+		fetch("http://127.0.0.1:8000/saveSuccessImg", {
+			method: "POST",
+			body: formData,
+		})
+			.then((response) => {
+				return response.json();
+			})
+			.then((data) => {
+				console.log(data);
+			});
+	};
+	const handleErrorImg = (file) => {
+		const formData = new FormData();
+		formData.append("file", file);
+		formData.append("userID", userID);
+		fetch("http://127.0.0.1:8000/saveErrorImg", {
+			method: "POST",
+			body: formData,
+		})
+			.then((response) => {
+				return response.json();
+			})
+			.then((data) => {
+				console.log(data);
 			});
 	};
 
