@@ -1,10 +1,10 @@
+import { Link, useNavigate } from "react-router-dom";
 import React, { useEffect, useRef, useState } from "react";
 import Sidebar from "../../components/admin/Sidebar";
-import {axios} from "./../../utils/axios_config";
+import {axios, axiosPermissionsRoles} from "./../../utils/axios_config";
 import Selectec_ from "../../components/Selectec_";
 import { toast } from "react-toastify";
 const formatVND = require("../../utils/VND_formatter");
-
 
 export default function User() {
   const [showModal, setShowModal] = useState(false);
@@ -14,6 +14,8 @@ export default function User() {
   const [reRender, setReRender] = useState(false);
   const [avatarReview, setAvatarReview] = useState();
   const avatarInputRef = useRef();
+  const navigate = useNavigate();
+
 
   const handleAvatarReview = (e) => {
     const file = e.target.files[0];
@@ -43,13 +45,17 @@ export default function User() {
   };
 
   const handleChange = () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/signin");
+    }
     // console.log("modalData: ", modalData);
     // check xem người dùng có thay đổi gì không?
     if (Object.keys(modalData).length === 0) {
       return;
     }
     // gửi request lên server
-    axios
+    axiosPermissionsRoles(token)
       .put("/api/user/" + currentSelectedUser._id, {
         ...modalData,
       })
@@ -88,7 +94,11 @@ export default function User() {
   // };
 
   const handleDelete = (e) => {
-    axios
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/signin");
+    }
+    axiosPermissionsRoles(token)
       .delete("/api/user/" + currentSelectedUser._id)
       .then((res) => {
         console.log(res.data);
@@ -101,7 +111,12 @@ export default function User() {
   };
 
   useEffect(() => {
-    axios
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/signin");
+      return;
+    }
+    axiosPermissionsRoles(token)
       .get("/api/user")
       .then((res) => {
         setListUsers(res.data);

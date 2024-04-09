@@ -1,7 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { axiosPermissionsRoles } from "../../utils/axios_config";
 
 export default function Sidebar() {
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setUser(null);
+      return;
+    }
+    try {
+      axiosPermissionsRoles(token)
+        .get("/api/user/current")
+        .then((res) => {
+          console.log("User data:");
+          console.log(res.data);
+          setUser(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } catch (error) {}
+  },[])
   return (
     <div>
       <button
@@ -211,15 +232,15 @@ m198 -101 c52 -22 98 -68 123 -122 44 -94 27 -183 -51 -260 -77 -78 -166 -95
           <div className="flex items-center gap-2 p-4">
             <img
               alt=""
-              src="https://images.unsplash.com/photo-1600486913747-55e5470d6f40?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
+              src={user?.avatar}
               className="size-10 rounded-full object-cover"
             />
             <div>
               <p className="text-xs">
                 <strong className="block font-medium text-white">
-                  Eric Frusciante
+                  {user?.username}
                 </strong>
-                <span className="text-white"> eric@frusciante.com </span>
+                <span className="text-white"> {user?.email} </span>
               </p>
             </div>
           </div>

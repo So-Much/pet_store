@@ -48,7 +48,7 @@ export default function Product() {
   const handleDeleteSelected = () => {
     if(!token) {
       // navigate to /signin
-      navigate('signin');
+      navigate('/signin');
       return;
     }
     try {

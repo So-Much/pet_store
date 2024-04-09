@@ -187,7 +187,7 @@ export default function Cart({ handleLogout }) {
               to={`/orders/${user?._id}`}
               className="w-full h-full text-left"
             >
-              Orders Checking
+              Orders
             </Link>
           </Dropdown.Item>
           <Dropdown.Divider />
