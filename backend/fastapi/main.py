@@ -6,6 +6,8 @@ from io import BytesIO
 import onnxruntime
 import numpy as np
 from PIL import Image
+import datetime
+from fastapi.staticfiles import StaticFiles
 
 app = FastAPI()
 
@@ -20,6 +22,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+app.mount("/static", StaticFiles(directory="userImage"), name="static")
 class BaseItem(BaseModel):
     prediction: list[list[float]]
 
@@ -32,6 +35,13 @@ async def getImage(file : UploadFile = File(...)):
     image = await file.read()
     image = Image.open(BytesIO(image))
     print(type(image))
+   
+    # download user image
+    dateUpload = datetime.datetime.now().strftime("%m_%d_%Y_%H_%M_%S")
+    imageName = dateUpload + ".jpg"
+    imagePath = "./userImage/{imgName}".format(imgName=imageName)
+    with open(imagePath, "wb") as f:
+        image.save(f)
 
 
     image = image.resize((640, 640))  # Resize the image to match the desired shape

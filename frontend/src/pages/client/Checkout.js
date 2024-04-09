@@ -3,6 +3,8 @@ import CartIcon from "../../components/CartIcon";
 import CheckoutItem from "../../components/CheckoutItem";
 
 import food from "../../assets/petproduct.jpg";
+import UserCheckOutInformation from "../../components/UserCheckoutInformation";
+import { PaymentMethod } from "../../components/PaymentMethod";
 
 export default function Checkout() {
 	return (
@@ -62,33 +64,17 @@ export default function Checkout() {
 										<td class="px-4 py-3"></td>
 										<td class="px-4 py-3 font-bold text-center">123456</td>
 									</tr>
-									<tr class="border-b border-gray-700">
-										<td
-											class="px-4 py-3 text-center"
-											style={{ width: "150px" }}
-										>
-											<b></b>
-										</td>
-
-										<td
-											scope="row"
-											class="px-4 py-3 font-medium text-gray-900"
-										></td>
-										<td class="px-4 py-3"></td>
-										<td class="px-4 py-3"></td>
-										<td class="px-4 py-3 font-bold flex justify-center items-center">
-											<button
-												class="middle none center mr-4 rounded-lg bg-blue-500 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-												data-ripple-light="true"
-												style={{ width: "100%" }}
-											>
-												Purchase
-											</button>
-										</td>
-									</tr>
 								</tbody>
 							</table>
 						</div>
+						<UserCheckOutInformation />
+						<button
+							class="middle none center mr-4 rounded-lg bg-blue-500 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+							data-ripple-light="true"
+							style={{ width: "100%" }}
+						>
+							Purchase
+						</button>
 					</div>
 				</div>
 			</section>
