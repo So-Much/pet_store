@@ -15,38 +15,35 @@ import Inbox from "./pages/admin/Inbox";
 import User from "./pages/admin/User";
 import Product from "./pages/admin/Product";
 import ProductDetail from "./pages/admin/ProductDetail";
-import {axios} from "./utils/axios_config";
+import Checkout from "./pages/client/Checkout";
 // import Schedule from "./pages/admin/Schedule";
 
 function App() {
-  const [isAuthenticated, setAuthenticated] = useState(false);
-  // #fff3c7
-  const [user, setUser] = useState({});
+	const [isAuthenticated, setAuthenticated] = useState(false);
+	// #fff3c7
 
-  const token = localStorage.getItem("token");
+	return (
+		<div>
+			<Routes>
+				<Route path="/" element={<Home />} />
+				<Route path="/shop" element={<Shop />} />
+				<Route path="/scan" element={<Scan />} />
+				<Route path="/services" element={<Services />} />
+				<Route path="/signin" element={<Login />} />
+				<Route path="/signup" element={<Register />} />
+				<Route path="/checkout" element={<Checkout />} />
+				<Route path="admin">
+					<Route path="dashboard" element={<Dashboard />} />
+					<Route path="inbox" element={<Inbox />} />
+					<Route path="user" element={<User />} />
+					<Route path="product" element={<Product />} />
+					<Route path="product/:product_id" element={<ProductDetail />} />
+				</Route>
+				{/* <Route path="/admin/schedule" element={<Schedule />} /> */}
 
-  // check token is valid
-  return (
-    <div className="max-w-[1440px]">
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/shop" element={<Shop />} />
-        <Route path="/scan" element={<Scan />} />
-        <Route path="/services" element={<Services />} />
-        <Route path="/signin" element={<Login />} />
-        <Route path="/signup" element={<Register />} />
-        <Route path="admin">
-          <Route path="dashboard" element={<Dashboard />} />
-          <Route path="inbox" element={<Inbox />} />
-          <Route path="user" element={<User />} />
-          <Route path="product" element={<Product />} />
-          <Route path="product/:product_id" element={<ProductDetail />} />
-        </Route>
-        {/* <Route path="/admin/schedule" element={<Schedule />} /> */}
-
-        <Route path="*" element={<PageNotFound_404 />} />
-      </Routes>
-      {/* <ToastContainer
+				<Route path="*" element={<PageNotFound_404 />} />
+			</Routes>
+			{/* <ToastContainer
           position="top-right"
           autoClose={5000}
           hideProgressBar={false}
@@ -58,8 +55,8 @@ function App() {
           pauseOnHover
           theme="light"
         /> */}
-    </div>
-  );
+		</div>
+	);
 }
 
 export default App;

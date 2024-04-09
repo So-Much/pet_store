@@ -49,6 +49,7 @@ export default function Shop() {
 								img={el.images[0] || food}
 								price={VND_formatter(el.price)}
 								onProductClick={displayModel}
+								data={el}
 							/>
 						);
 					})}
