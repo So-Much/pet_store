@@ -6,7 +6,7 @@ const {
   CLIENT_URL
 } = require('../config/enviroments/env')
 
-// ROUTE : []: /auth
+// ROUTE : []: /auth/login
 // router.post('/login',passport.authenticate("local"), authController.login);
 router.post(
   "/login",
@@ -48,6 +48,8 @@ router.get("/logout", (req, res) => {
   res.redirect(CLIENT_URL)
   res.status(200).json({ message: "Logout successfully" });
 } );
+
+router.get('/google',passport.authenticate('google-oauth2',["email", "profile"]))
 
 router.get("/google/callback",passport.authenticate('google-oauth2',{
   successRedirect: CLIENT_URL,

@@ -27,7 +27,6 @@ export default function Login() {
         }
       )
       .then((res) => {
-        console.log(res);
         localStorage.setItem("token", res.data.user.token);
         navigate('/', {state: res.data.user})
       })

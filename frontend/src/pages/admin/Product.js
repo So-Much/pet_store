@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Sidebar from "../../components/admin/Sidebar";
-import {axios} from "../../utils/axios_config";
+import { axios, axiosPermissionsRoles } from "../../utils/axios_config";
 import { Link, useNavigate } from "react-router-dom";
 import Pagination from "../../components/Pagination";
 const formatVND = require("../../utils/VND_formatter");
@@ -15,10 +15,9 @@ export default function Product() {
   const [totalPages, setTotalPages] = useState(0);
   const limit = 8;
 
-  console.log("🚀 ~ Product ~ productsSelected:", productsSelected);
+  // console.log("🚀 ~ Product ~ productsSelected:", productsSelected);
 
   const navigate = useNavigate();
-
 
   const handleSelectAll = (e) => {
     setCheckedAll(e.target.checked);
@@ -29,15 +28,38 @@ export default function Product() {
     }
   };
 
-  const handleDeleteSelected = () => {
-    console.log("🚀 ~ handleDeleteSelected ~ productsSelected", productsSelected);
+  const handleDelete = (product_id) => {
     try {
-      axios
+      axiosPermissionsRoles(token)
+      .delete(`/api/product/${product_id}`)
+      .then(res => {
+        // console.log(res);
+        setChanged(!changed);
+      })
+      .catch(err => {
+        console.log(err);
+      })
+    } catch (error) {
+      
+    }
+  }
+
+  const token = localStorage.getItem('token');
+  const handleDeleteSelected = () => {
+    if(!token) {
+      // navigate to /signin
+      navigate('signin');
+      return;
+    }
+    try {
+      axiosPermissionsRoles(token)
         .delete(
           "/api/product/selectedProducts",
-          { data: {
-            products: productsSelected
-          } },
+          {
+            data: {
+              products: productsSelected,
+            },
+          },
           {
             headers: {
               "Content-Type": "application/json",
@@ -45,7 +67,7 @@ export default function Product() {
           }
         )
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           setChanged(!changed);
         })
         .catch((err) => console.log(err));
@@ -56,25 +78,21 @@ export default function Product() {
 
   useEffect(() => {
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
       if (!token) {
-        navigate('/signin');
+        navigate("/signin");
         return;
       }
-      axios
-        .get(`/api/product/page/?page=${currentPage}&limit=${limit}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
+      axiosPermissionsRoles(token)
+        .get(`/api/product/page/?page=${currentPage}&limit=${limit}`)
         .then((res) => {
           setListProducts(res.data.products);
           setTotalPages(res.data.totalPages);
-          console.log(res);
+          // console.log(res);
         })
         .catch((err) => {
-          // not permission error
-          navigate('/');
+          console.log("Error: " + err)
+          navigate("/");
         });
     } catch (error) {
       console.log(error.message);
@@ -281,7 +299,9 @@ export default function Product() {
                             </button>
                             <button
                               onClick={() => {
-                                // handleDelete();
+                                console.log("Starting delete...");
+                                handleDelete(product._id);
+                                console.log("Success delete!")
                                 // setReRender(!reRender);
                                 // setCurrentSelectedUser({});
                               }}

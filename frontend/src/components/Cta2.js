@@ -1,5 +1,6 @@
 import React from "react";
 import petProduct from "../assets/petproduct.jpg";
+import { Link } from "react-router-dom";
 
 export default function Cta2() {
 	return (
@@ -18,8 +19,8 @@ export default function Cta2() {
 							lives. Step into our welcoming space, where passion for pets meets
 							top-notch service, ensuring a tail-wagging experience for all.
 						</p>
-						<a
-							href="#"
+						<Link
+						to={"/shop"}
 							className="inline-flex items-center text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:focus:ring-primary-900"
 						>
 							Shop now
@@ -35,7 +36,7 @@ export default function Cta2() {
 									clipRule="evenodd"
 								></path>
 							</svg>
-						</a>
+						</Link>
 					</div>
 					<img
 						className="w-full hidden dark:block"

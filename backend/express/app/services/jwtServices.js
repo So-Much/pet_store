@@ -18,6 +18,7 @@ module.exports = {
       // console.log(req.cookies);
       // next();
       const token = authHeader && authHeader.split(" ")[1];
+      // console.log(token);
       if (token == null) return res.sendStatus(401);
       jwt.verify(token, JWT_SECRET, (err, user) => {
         if (err) return res.sendStatus(403);
