@@ -1,15 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
-import ProductItem from "../../components/ProductItem";
-import Feature from "../../components/Feature";
-import { Link } from "react-router-dom";
-import BreadcrumbImageIcon from "../../components/BreadcrumbImageIcon";
-import DividedLine from "../../components/DividedLine";
-import DropdownFilter from "../../components/DropdownFilter";
 import { Product } from "../../components/Product";
 import food from "../../assets/products/food.webp";
-import toy from "../../assets/products/toy.jpg";
 import { ProductModel } from "../../components/ProductModal";
 import {axios, axiosPermissionsRoles} from "../../utils/axios_config";
 import VND_formatter from "../../utils/VND_formatter";
