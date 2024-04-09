@@ -2,22 +2,36 @@ import React, { useState } from "react";
 import LoginImage from "../../assets/Login_left.jpg";
 import mailIcon from "../../assets/mail-inbox-app.png";
 import lockIcon from "../../assets/lock.png";
-import { Link } from "react-router-dom";
-import axios from "./../../utils/axios_config";
+import { Link, useNavigate } from "react-router-dom";
+import {axios} from "./../../utils/axios_config";
 
 export default function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const navigate = useNavigate();
+
 
   const handleLogin = (e) => {
     axios
-    .post('/auth/login', {
-      email,
-      password,
-    })
-    .then(res => console.log(res))
-    .catch(err => console.error(err));
-  }
+      .post(
+        "/auth/login",
+        {
+          email,
+          password,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((res) => {
+        localStorage.setItem("token", res.data.user.token);
+        navigate('/', {state: res.data.user})
+      })
+      .catch((err) => console.error(err));
+  };
   return (
     <div className="w-dvw min-h-dvh h-full bg-slate-200 flex items-center justify-center">
       {/* login layout */}

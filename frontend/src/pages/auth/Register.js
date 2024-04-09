@@ -1,16 +1,18 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import userIcon from "../../assets/user.png";
 import lockIcon from "../../assets/lock.png";
 import RegisterImage from "../../assets/Register_left.jpg";
 import mailIcon from "./../../assets/mail-inbox-app.png";
-import axios from '../../utils/axios_config';
+import {axios} from '../../utils/axios_config';
 
 export default function Register() {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  const navigate = useNavigate();
 
   const handleRegister = (e) => {
     e.preventDefault();
@@ -30,6 +32,7 @@ export default function Register() {
         })
         .then(function (response) {
           console.log(response);
+          navigate('/signin')
         })
         .catch(function (error) {
           console.log(error);

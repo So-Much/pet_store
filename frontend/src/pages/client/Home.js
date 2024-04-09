@@ -17,6 +17,39 @@ export default function Home() {
 			setShowHeader(currentScrollPos <= 0 || prevScrollPos > currentScrollPos);
 			setPrevScrollPos(currentScrollPos);
 		};
+	});
+
+	// const [user, setUser] = useState(null);
+	const [cart, setCart] = useState(null);
+
+	useEffect(() => {
+		const token = localStorage.getItem("token");
+		if (!token) {
+			setCart(null);
+			return;
+		}
+		try {
+			axiosPermissionsRoles(token)
+				.get("/api/cart")
+				.then((res) => {
+					// console.log(res.data);
+					setCart(res.data);
+				})
+				.catch((err) => {
+					// console.log(err)
+					console.log("You are have not Signed In!");
+				});
+		} catch (error) {
+			console.log("You are have not Signed In!");
+		}
+	}, []);
+
+	useEffect(() => {
+		const handleScroll = () => {
+			const currentScrollPos = window.pageYOffset;
+			setShowHeader(currentScrollPos <= 0 || prevScrollPos > currentScrollPos);
+			setPrevScrollPos(currentScrollPos);
+		};
 
 		window.addEventListener("scroll", handleScroll);
 
@@ -24,21 +57,9 @@ export default function Home() {
 			window.removeEventListener("scroll", handleScroll);
 		};
 	}, [prevScrollPos]);
-	useEffect(() => {
-		axios
-			.get("/api/cart")
-			.then((data) => {
-				// setProducts(data.data);
-				console.log(data);
-			})
-			.catch((e) => {
-				console.log(e);
-			});
-	}, []);
-
 	return (
 		<div className="test">
-			{showHeader && <Header />}
+			{showHeader && <Header cart={cart} />}
 			{/* main content */}
 			<div>
 				<div>

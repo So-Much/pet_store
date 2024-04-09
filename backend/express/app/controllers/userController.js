@@ -1,5 +1,7 @@
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
+const { USER_ROLES } = require("../utils/Constant");
+const Cart = require("../models/Cart");
 
 module.exports = {
   // ROUTE : [GET]: api/user
@@ -25,11 +27,15 @@ module.exports = {
         if (err) {
           res.status(err.statusCode).json({ message: err.message });
         } else {
-
+          const cartNew = await new Cart({});
+          const cartSave = await cartNew.save();
           const uNew = new User({
             username: req.body.username,
             email: req.body.email,
             password: hashedPassword,
+            phoneNumber: req.body.phoneNumber || "",
+            role: req.body.role || USER_ROLES.CUSTOMER,
+            cart_id: cartSave._id
           });
           const uSaved = await uNew.save();
           res.status(201).json(uSaved);

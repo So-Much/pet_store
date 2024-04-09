@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import Sidebar from "../../components/admin/Sidebar";
-import axios from "./../../utils/axios_config";
+import {axios} from "./../../utils/axios_config";
 import Selectec_ from "../../components/Selectec_";
 import { toast } from "react-toastify";
 const formatVND = require("../../utils/VND_formatter");
@@ -418,7 +418,7 @@ export default function User() {
                           onClick={() => {
                             setCurrentSelectedUser({});
                           }}
-                          className="text-base bg-slate-400 hover:bg-slate-500 p-2 rounded-md px-3"
+                          className="text-base bg-slate-200 hover:bg-slate-300 p-2 rounded-md px-3"
                         >
                           Close
                         </button>

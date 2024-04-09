@@ -3,7 +3,7 @@ import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import { type } from "@testing-library/user-event/dist/type";
 // import { Axios } from "axios";
-import axios from "../../utils/axios_config";
+import {axios} from "../../utils/axios_config";
 import { ResultTable, TableItems } from "../../components/ResultTable";
 // import axios from "axios";
 

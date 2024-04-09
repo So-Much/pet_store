@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Sidebar from "../../components/admin/Sidebar";
-import axios from "../../utils/axios_config";
-import { Link } from "react-router-dom";
+import { axios, axiosPermissionsRoles } from "../../utils/axios_config";
+import { Link, useNavigate } from "react-router-dom";
 import Pagination from "../../components/Pagination";
 const formatVND = require("../../utils/VND_formatter");
 
@@ -15,6 +15,10 @@ export default function Product() {
   const [totalPages, setTotalPages] = useState(0);
   const limit = 8;
 
+  // console.log("🚀 ~ Product ~ productsSelected:", productsSelected);
+
+  const navigate = useNavigate();
+
   const handleSelectAll = (e) => {
     setCheckedAll(e.target.checked);
     if (e.target.checked) {
@@ -24,26 +28,71 @@ export default function Product() {
     }
   };
 
-  // useEffect(() => {
-  //   axios
-  //     .get("/api/product")
-  //     .then((res) => {
-  //       setListProducts(res.data);
-  //       console.log("Product is gotten successfully");
-  //       console.log(res.data);
-  //     })
-  //     .catch((err) => console.log(err));
-  // }, [changed]);
+  const handleDelete = (product_id) => {
+    try {
+      axiosPermissionsRoles(token)
+      .delete(`/api/product/${product_id}`)
+      .then(res => {
+        // console.log(res);
+        setChanged(!changed);
+      })
+      .catch(err => {
+        console.log(err);
+      })
+    } catch (error) {
+      
+    }
+  }
+
+  const token = localStorage.getItem('token');
+  const handleDeleteSelected = () => {
+    if(!token) {
+      // navigate to /signin
+      navigate('signin');
+      return;
+    }
+    try {
+      axiosPermissionsRoles(token)
+        .delete(
+          "/api/product/selectedProducts",
+          {
+            data: {
+              products: productsSelected,
+            },
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then((res) => {
+          // console.log(res);
+          setChanged(!changed);
+        })
+        .catch((err) => console.log(err));
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   useEffect(() => {
-    console.log("Fetching data...");
     try {
-      axios
+      const token = localStorage.getItem("token");
+      if (!token) {
+        navigate("/signin");
+        return;
+      }
+      axiosPermissionsRoles(token)
         .get(`/api/product/page/?page=${currentPage}&limit=${limit}`)
         .then((res) => {
           setListProducts(res.data.products);
           setTotalPages(res.data.totalPages);
-          console.log(res);
+          // console.log(res);
+        })
+        .catch((err) => {
+          console.log("Error: " + err)
+          navigate("/");
         });
     } catch (error) {
       console.log(error.message);
@@ -78,7 +127,7 @@ export default function Product() {
             <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
               <thead className="ltr:text-left rtl:text-right">
                 <tr>
-                  <th className="sticky inset-y-0 start-0 bg-white px-4 py-2 flex">
+                  <th className="sticky inset-y-0 start-0 bg-white px-4 py-3 flex">
                     <label htmlFor="SelectAll" className="sr-only">
                       Select All
                     </label>
@@ -90,25 +139,73 @@ export default function Product() {
                       className="size-5 rounded border-gray-300"
                     />
                   </th>
-                  <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                  <th className="whitespace-nowrap px-4 py-3 font-medium text-gray-900">
                     Name
                   </th>
-                  <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                  <th className="whitespace-nowrap px-4 py-3 font-medium text-gray-900">
                     Category
                   </th>
-                  <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                  <th className="whitespace-nowrap px-4 py-3 font-medium text-gray-900">
                     Price
                   </th>
-                  <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                  <th className="whitespace-nowrap px-4 py-3 font-medium text-gray-900">
                     Sale
                   </th>
-                  <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                  <th className="whitespace-nowrap px-4 py-3 font-medium text-gray-900">
                     Quantity
                   </th>
-                  <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                  <th className="whitespace-nowrap px-4 py-3 font-medium text-gray-900">
                     Status
                   </th>
-                  <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900"></th>
+                  <th className="whitespace-nowrap px-4 py-3 font-medium text-gray-900">
+                    {productsSelected.length !== 0 ? (
+                      <div>
+                        <button
+                          className="leading-none px-3 font-medium text-red-600 hover:text-red-500 duration-150 hover:bg-gray-50 rounded-lg"
+                          onClick={() => {
+                            // setCurrentSelectedUser(item);
+                            document.getElementById("my_modal_2").showModal();
+                          }}
+                        >
+                          Del
+                        </button>
+                        <dialog
+                          id="my_modal_2"
+                          className="modal rounded-lg p-2"
+                        >
+                          <div className="w-full h-full p-5">
+                            <h3 className="font-bold text-lg text-start">
+                              Delete Product Selected
+                            </h3>
+                            <p className="py-4 text-lg">
+                              Do you want to delete all product are selected?
+                            </p>
+                          </div>
+                          <form
+                            method="dialog"
+                            className="modal-backdrop p-2 flex gap-1.5 items-end justify-end"
+                          >
+                            <button
+                              onClick={() => {}}
+                              className="text-base bg-slate-200 hover:bg-slate-300 p-2 rounded-md px-3"
+                            >
+                              Close
+                            </button>
+                            <button
+                              onClick={() => {
+                                handleDeleteSelected();
+                                // setReRender(!reRender);
+                                // setCurrentSelectedUser({});
+                              }}
+                              className="text-base bg-red-500 hover:bg-red-600 p-2 rounded-md px-3"
+                            >
+                              Delete
+                            </button>
+                          </form>
+                        </dialog>
+                      </div>
+                    ) : null}
+                  </th>
                 </tr>
               </thead>
 
@@ -125,12 +222,19 @@ export default function Product() {
                           value={product._id}
                           className="size-5 rounded border-gray-300 product_item"
                           type="checkbox"
-                          checked={productsSelected.includes(product._id) || checkedAll}
+                          checked={
+                            productsSelected.includes(product._id) || checkedAll
+                          }
                           onChange={(e) => {
                             if (e.target.checked) {
-                              setProductsSelected(prev => [...prev, e.target.value]);
+                              setProductsSelected((prev) => [
+                                ...prev,
+                                e.target.value,
+                              ]);
                             } else {
-                              setProductsSelected(prev => prev.filter(item => item !== e.target.value));
+                              setProductsSelected((prev) =>
+                                prev.filter((item) => item !== e.target.value)
+                              );
                             }
                           }}
                           id="Row1"
@@ -155,7 +259,58 @@ export default function Product() {
                         {product.status}
                       </td>
                       <td className="whitespace-nowrap px-4 py-2 text-center text-gray-700">
-                        Delete
+                        <button
+                          className="py-2 leading-none px-3 font-medium text-red-600 hover:text-red-500 duration-150 hover:bg-gray-50 rounded-lg"
+                          onClick={() => {
+                            // setCurrentSelectedUser(item);
+                            document.getElementById("my_modal_2").showModal();
+                          }}
+                        >
+                          <img
+                            src="https://cdn-icons-png.flaticon.com/512/6861/6861362.png"
+                            alt="delete"
+                            className="size-3"
+                          />
+                        </button>
+                        {/* main content modal */}
+                        <dialog
+                          id="my_modal_2"
+                          className="modal rounded-lg p-2"
+                        >
+                          <div className="w-full h-full p-5">
+                            <h3 className="font-bold text-lg text-start">
+                              Delete Product
+                            </h3>
+                            <p className="py-4 text-lg">
+                              Do you want to delete this Product?
+                            </p>
+                          </div>
+                          <form
+                            method="dialog"
+                            className="modal-backdrop p-2 flex gap-1.5 items-end justify-end"
+                          >
+                            <button
+                              onClick={() => {
+                                // setCurrentSelectedUser({});
+                              }}
+                              className="text-base bg-slate-200 hover:bg-slate-300 p-2 rounded-md px-3"
+                            >
+                              Close
+                            </button>
+                            <button
+                              onClick={() => {
+                                console.log("Starting delete...");
+                                handleDelete(product._id);
+                                console.log("Success delete!")
+                                // setReRender(!reRender);
+                                // setCurrentSelectedUser({});
+                              }}
+                              className="text-base bg-red-500 hover:bg-red-600 p-2 rounded-md px-3"
+                            >
+                              Delete
+                            </button>
+                          </form>
+                        </dialog>
                       </td>
                     </tr>
                   );

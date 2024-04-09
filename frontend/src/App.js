@@ -1,14 +1,13 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import PageNotFound_404 from "./exceptions/PageNotFound_404";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ToastContainer } from "react-toastify";
 
 import Home from "./pages/client/Home";
 import Shop from "./pages/client/Shop";
 import Scan from "./pages/client/Scan";
 import Services from "./pages/client/Services";
-import Cart from "./pages/client/Cart";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import Dashboard from "./pages/admin/Dashboard";

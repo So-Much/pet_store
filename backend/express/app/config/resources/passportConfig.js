@@ -12,16 +12,9 @@ const {
   sessionOptions,
 } = require("../../utils/passport");
 const User = require("../../models/User");
-const cookieParser = require("cookie-parser");
-const session = require("cookie-session");
 const passport = require("passport");
 
 module.exports = function passportConfig(app) {
-  app.use(cookieParser());
-  app.use(session(sessionOptions));
-  // console.log(sessionOptions);
-  // app.use(session({ resave: true, saveUninitialized: true}));
-
   passport.serializeUser((user, done) => {
     done(null, user._id);
   });
@@ -80,7 +73,7 @@ module.exports = function passportConfig(app) {
   );
 
   app.use(passport.initialize());
-  // app.use(passport.session());
+  app.use(passport.session());
   console.log("Passport config successfully");
   return {
     message: "Passport config successfully",
