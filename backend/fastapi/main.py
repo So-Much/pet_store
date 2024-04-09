@@ -65,8 +65,6 @@ async def getImage(file : UploadFile = File(...), userID: str = Form(...)):
 async def getErrorImage(file : UploadFile = File(...), userID: str = Form(...)):
     image = await file.read()
     image = Image.open(BytesIO(image))
-    if image.mode == 'RGBA':
-        image = image.convert('RGB')
     if(userID):
         if not os.path.exists(userID + "/Success"):
             if(not os.path.exists(userID)):
