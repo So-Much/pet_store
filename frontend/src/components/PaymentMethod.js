@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export function PaymentMethod() {
+export function PaymentMethod({handleChossePaymentMethod}) {
 	const [onlinePayment, setOnlinePayment] = useState(false);
 	const payment = (toogle) => {
 		setOnlinePayment(toogle);
@@ -18,6 +18,7 @@ export function PaymentMethod() {
 						class="w-[20px] aspect-square"
 						name="period"
 						id="msix"
+						onChange={() => handleChossePaymentMethod("Payment on delivery")}
 					/>{" "}
 					<span class="inline-block pl-3 text-xl">Payment on delivery</span>
 				</label>
@@ -31,6 +32,7 @@ export function PaymentMethod() {
 						class="w-[20px] aspect-square"
 						name="period"
 						id="mtwelve"
+						onChange={() => handleChossePaymentMethod("Online Payment")}
 					/>{" "}
 					<span class="text-xl">Online Payment</span>
 				</label>

@@ -12,5 +12,13 @@ module.exports = mongoose.model(
             default: ORDER_STATUS.PENDING
         }
      }],
+     status: {
+      type: String, enum: [...Object.keys(ORDER_STATUS)],
+     },
+    user_id: { type: mongoose.SchemaTypes.ObjectId },
+    address: { type: String },
+    phone: { type: String },
+    fullname: {type: String }
+    
   })
 );

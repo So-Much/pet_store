@@ -31,7 +31,7 @@ function App() {
 				<Route path="/services" element={<Services />} />
 				<Route path="/signin" element={<Login />} />
 				<Route path="/signup" element={<Register />} />
-				<Route path="/checkout/:user_id" element={<Checkout />} />
+				<Route path="/checkout" element={<Checkout />} />
 				<Route path="admin">
 					<Route path="dashboard" element={<Dashboard />} />
 					<Route path="inbox" element={<Inbox />} />

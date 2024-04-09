@@ -1,19 +1,21 @@
 # FastAPI
-fastapi==0.110.0
-uvicorn==0.27.1
+fastapi
+uvicorn
 
 # # YOLOv9
-# yolov8==0.1.0
+yolov8
 
 # Roboflow
-roboflow==1.1.21
+roboflow
 
 # Thư viện hỗ trợ
-opencv-python==4.6.0.66
-numpy==1.22.3
-pandas==1.5.2
-tqdm==4.64.0
+opencv-python
+numpy
+pandas
+tqdm
 
 # Thư viện tùy chọn
-tensorflow==2.9.1
-torch==1.12.1
+tensorflow
+torch
+onnxruntime
+python-multipart
