@@ -25,14 +25,15 @@ export default function Home() {
       axiosPermissionsRoles(token)
         .get("/api/cart")
         .then((res) => {
-          console.log(res.data);
+          // console.log(res.data);
           setCart(res.data)
         })
         .catch( err => {
-          console.log(err)
+          // console.log(err)
+          console.log('You are have not Signed In!')
         })
     } catch (error) {
-
+      console.log('You are have not Signed In!')
     }
   }, []);
 

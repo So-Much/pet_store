@@ -11,7 +11,7 @@ import { Product } from "../../components/Product";
 import food from "../../assets/products/food.webp";
 import toy from "../../assets/products/toy.jpg";
 import { ProductModel } from "../../components/ProductModal";
-import {axios} from "../../utils/axios_config";
+import {axios, axiosPermissionsRoles} from "../../utils/axios_config";
 import VND_formatter from "../../utils/VND_formatter";
 
 export default function Shop() {

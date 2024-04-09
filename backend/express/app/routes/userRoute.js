@@ -9,14 +9,12 @@ const { USER_ROLES } = require("../utils/Constant");
 // ROUTE : []: api/user
 router.get('/current', authencationToken([...USER_ROLES.ALL]), (req, res, next) => {
   const { password, ...userWithoutPass } = req.user;
-  console.log("🚀 ~ router.get ~ userWithoutPass:", userWithoutPass)
-  console.log("🚀 ~ router.get ~ req.user:", req.user)
   res.status(200).json(userWithoutPass);
 })
 
 router.put(
   "/:id",
-  authencationToken([USER_ROLES.ADMIN, USER_ROLES.MANAGER]),
+  authencationToken([...USER_ROLES.ALL]),
   userController.updateUser
 );
 // router.post('/update/:id', upload.single('avatar'), userController.uploadAvatar)

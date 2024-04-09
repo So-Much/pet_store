@@ -23,27 +23,40 @@ const upload = multer({ storage }).array("images", 10);
 // ROUTE : []: api/product
 router.get(
   "/page",
-  authencationToken([USER_ROLES.ADMIN]),
+  authencationToken([...USER_ROLES.PERMISSIONS_LIMIT_PRODUCTS]),
   productController.pagination
 );
-router.post("/images/:id", upload, productController.uploadImages);
+router.post(
+  "/images/:id",
+  authencationToken([...USER_ROLES.PERMISSIONS_LIMIT_PRODUCTS]),
+  upload,
+  productController.uploadImages
+);
 
 // default routes
 // ROUTE : []: api/product
-router.delete("/selectedProducts", productController.deleteProducts);
+router.delete(
+  "/selectedProducts",
+  authencationToken([...USER_ROLES.PERMISSIONS_LIMIT_PRODUCTS]),
+  productController.deleteProducts
+);
 router.get("/category", productController.getAllCategories);
-router.post("/create", productController.createProduct);
+router.post(
+  "/create",
+  authencationToken([...USER_ROLES.PERMISSIONS_LIMIT_PRODUCTS]),
+  productController.createProduct
+);
 router.delete(
   "/:id",
-  authencationToken([USER_ROLES.ADMIN, USER_ROLES.MANAGER, USER_ROLES.STAFF]),
+  authencationToken([...USER_ROLES.PERMISSIONS_LIMIT_PRODUCTS]),
   productController.deleteProduct
 );
-router.put("/:id", productController.updateProduct);
-router.get("/:id", productController.getProduct);
-router.get(
-  "/",
-  authencationToken([USER_ROLES.ADMIN]),
-  productController.getAllProducts
+router.put(
+  "/:id",
+  authencationToken([...USER_ROLES.PERMISSIONS_LIMIT_PRODUCTS]),
+  productController.updateProduct
 );
+router.get("/:id", productController.getProduct);
+router.get("/", productController.getAllProducts);
 
 module.exports = router;

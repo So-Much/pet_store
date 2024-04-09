@@ -4,6 +4,7 @@ module.exports = {
     STAFF: "STAFF",
     MANAGER: "MANAGER",
     ADMIN: "ADMIN",
+    PERMISSIONS_LIMIT_PRODUCTS: ["STAFF", "MANAGER", "ADMIN"],
     ALL: ["CUSTOMER", "STAFF", "MANAGER", "ADMIN"],
   },
   ORDER_STATUS: {
